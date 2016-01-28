@@ -1,5 +1,7 @@
 <core:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
-	xmlns="sap.m" controllerName="openui5.tutorial.wt.step4.App"
+	xmlns="sap.m" controllerName="openui5.tutorial.walkthrough.App"
 	xmlns:html="http://www.w3.org/1999/xhtml">
 	<Text text="Hello World" />
+	<Button text="Say Hello" press="onShowHello">
+	</Button>
 </core:View>
