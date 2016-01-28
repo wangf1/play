@@ -1,9 +1,9 @@
 sap.ui.define([
-    "sap/ui/core/mvc/Controller"
-], function(Controller) {
+    "sap/ui/core/mvc/Controller", "sap/m/MessageToast"
+], function(Controller, MessageToast) {
     "use strict";
     var privateSayHello = function() {
-        alert("Hello World");
+        MessageToast.show("Hello World");
     };
     var theController = Controller.extend("openui5.tutorial.walkthrough.App", {
         onShowHello: privateSayHello
