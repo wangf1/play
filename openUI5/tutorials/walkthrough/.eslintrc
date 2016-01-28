@@ -1,0 +1,19 @@
+{
+	"env": {
+		"browser": true
+	},
+	"globals": {
+		"jQuery": true,
+        "$": true,
+        "sap":true,
+	},
+
+	"rules": {
+		"global-strict": 2,
+		"strict": 1,
+		"no-extra-strict": 2,
+		"no-shadow-restricted-names": 2,
+		"no-restricted-modules": 0,
+		"no-underscore-dangle": 0
+	}
+}
