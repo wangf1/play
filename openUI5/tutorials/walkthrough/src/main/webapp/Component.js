@@ -13,7 +13,7 @@ sap.ui.define([
     };
     var setI18nModel = function(thisController) {
         var i18nModel = new ResourceModel({
-            bundleName: "openui5.tutorial.i18n.i18n"
+            bundleName: "openui5.tutorial.wt.i18n.i18n"
         });
         thisController.setModel(i18nModel, "i18n");
     };
@@ -21,9 +21,9 @@ sap.ui.define([
         setJsonModel(thisController);
         setI18nModel(thisController);
     };
-    var theComponent = UIComponent.extend("openui5.tutorial.Component", {
+    var theComponent = UIComponent.extend("openui5.tutorial.wt.Component", {
         metadata: {
-            rootView: "openui5.tutorial.walkthrough.App"
+            manifest: "json"
         },
         init: function() {
             // call the init function of the parent
