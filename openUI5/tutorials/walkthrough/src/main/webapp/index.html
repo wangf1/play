@@ -14,8 +14,8 @@
 </script>
 <script>
     sap.ui.getCore().attachInit(function() {
-        sap.ui.xmlview({
-            viewName: "openui5.tutorial.walkthrough.App"
+        new sap.ui.core.ComponentContainer({
+            name: "openui5.tutorial"
         }).placeAt("content");
     });
 </script>
