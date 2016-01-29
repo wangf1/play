@@ -1,0 +1,13 @@
+<core:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m" controllerName="openui5.tutorial.wt.App" xmlns:html="http://www.w3.org/1999/xhtml"
+	displayBlock="true">
+	<App class="myAppDemoWT">
+		<pages>
+			<Page title="{i18n>homePageTitle}">
+				<content>
+					<mvc:XMLView viewName="openui5.tutorial.wt.hello.HelloPanel" />
+				</content>
+			</Page>
+		</pages>
+	</App>
+</core:View>

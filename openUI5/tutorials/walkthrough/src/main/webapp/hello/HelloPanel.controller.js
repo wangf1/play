@@ -10,7 +10,7 @@ sap.ui.define([
         ]);
         MessageToast.show(sMsg);
     };
-    var theController = Controller.extend("openui5.tutorial.wt.walkthrough.App", {
+    var theController = Controller.extend("openui5.tutorial.wt.hello.HelloPanel", {
         onShowHello: privateSayHello
     });
     return theController;
