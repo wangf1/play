@@ -1,7 +1,7 @@
 <core:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
 	xmlns="sap.m" controllerName="openui5.tutorial.wt.walkthrough.App"
 	xmlns:html="http://www.w3.org/1999/xhtml" displayBlock="true">
-	<App>
+	<App class="myAppDemoWT">
 		<pages>
 			<Page title="{i18n>homePageTitle}">
 				<content>
@@ -9,12 +9,11 @@
 						width="auto">
 						<content>
 							<Text text="{i18n>showHelloButtonText}" />
-							<Button text="Say Hello" press="onShowHello" class="sapUiSmallMarginEnd">
-							</Button>
-
+							<Button text="Say Hello" press="onShowHello" class="myCustomButton" />
 							<Input value="{/recipient/name}" valueLiveUpdate="true"
 								width="60%" />
-							<Text text="Hello {/recipient/name}" class="sapUiSmallMargin" />
+							<Text text="Hello {/recipient/name}"
+								class="sapUiSmallMargin sapThemeHighlight-asColor myCustomText" />
 						</content>
 					</Panel>
 				</content>
