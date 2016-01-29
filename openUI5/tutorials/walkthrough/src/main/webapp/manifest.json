@@ -37,7 +37,7 @@
 	  "i18n": {
 		"type": "sap.ui.model.resource.ResourceModel",
 		"settings": {
-		  "bundleName": "sap.ui.demo.wt.i18n.i18n"
+		  "bundleName": "openui5.tutorial.wt.i18n.i18n"
 		}
 	  }
 	}

@@ -1,6 +1,6 @@
 sap.ui.define([
     "sap/ui/core/UIComponent", "sap/ui/model/json/JSONModel", "sap/ui/model/resource/ResourceModel"
-], function(UIComponent, JSONModel, ResourceModel) {
+], function(UIComponent, JSONModel) {
     "use strict";
     var setJsonModel = function(thisController) {
         var oData = {
@@ -11,15 +11,8 @@ sap.ui.define([
         var oModel = new JSONModel(oData);
         thisController.setModel(oModel);
     };
-    var setI18nModel = function(thisController) {
-        var i18nModel = new ResourceModel({
-            bundleName: "openui5.tutorial.wt.i18n.i18n"
-        });
-        thisController.setModel(i18nModel, "i18n");
-    };
     var privateInit = function(thisController) {
         setJsonModel(thisController);
-        setI18nModel(thisController);
     };
     var theComponent = UIComponent.extend("openui5.tutorial.wt.Component", {
         metadata: {
