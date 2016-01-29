@@ -1,8 +1,7 @@
 sap.ui.define([
-    "sap/ui/core/mvc/Controller", "sap/m/MessageToast"
-], function(Controller, MessageToast) {
+    "sap/ui/core/mvc/Controller", "sap/m/MessageToast", "openui5/tutorial/wt/hello/HelloDialogController"
+], function(Controller, MessageToast, HelloDialogController) {
     "use strict";
-    var sayHelloDialog;
     var privateSayHello = function() {
         var oBundle = this.getView().getModel("i18n").getResourceBundle();
         var sRecipient = this.getView().getModel().getProperty("/recipient/name");
@@ -11,24 +10,13 @@ sap.ui.define([
         ]);
         MessageToast.show(sMsg);
     };
-    var buildSayHelloDialog = function(theController) {
-        if (sayHelloDialog) {
-            return;
-        }
-        sayHelloDialog = sap.ui.xmlfragment("openui5.tutorial.wt.hello.HelloDialog", theController);
-        theController.getView().addDependent(sayHelloDialog);
-    };
     var openSayHelloDialog = function() {
-        buildSayHelloDialog(this);
-        sayHelloDialog.open();
+        var helloDialog = HelloDialogController.instance;
+        helloDialog.open(this.getView());
     };
-    var closeSayHelloDialog = function() {
-        sayHelloDialog.close();
-    };
-    var theController = Controller.extend("openui5.tutorial.wt.hello.HelloPanel", {
+    var TheControllerConstructor = Controller.extend("openui5.tutorial.wt.hello.HelloPanel", {
         onShowHello: privateSayHello,
-        onOpenDialog: openSayHelloDialog,
-        onCloseDialog: closeSayHelloDialog
+        onOpenDialog: openSayHelloDialog
     });
-    return theController;
+    return TheControllerConstructor;
 });

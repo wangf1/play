@@ -11,7 +11,7 @@
 			</l:VerticalLayout>
 		</content>
 		<beginButton>
-			<Button text="{i18n>dialogCloseButtonText}" press="onCloseDialog" />
+			<Button text="{i18n>dialogCloseButtonText}" press="close" />
 		</beginButton>
 	</Dialog>
 </core:FragmentDefinition>
