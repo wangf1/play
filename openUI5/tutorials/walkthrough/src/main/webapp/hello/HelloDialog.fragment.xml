@@ -1,6 +1,15 @@
 <core:FragmentDefinition xmlns="sap.m"
-	xmlns:core="sap.ui.core">
-	<Dialog title="Hello {/recipient/name}">
+	xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout">
+	<Dialog title="Hello {/recipient/name}" contentHeight="100%"
+		contentWidth="60%">
+		<content>
+			<l:VerticalLayout>
+				<core:Icon src="sap-icon://hello-world" class="sapUiMediumMargin"
+					size="4em" />
+				<core:Icon src="sap-icon://hello-world" class="sapUiMediumMargin"
+					size="4em" />
+			</l:VerticalLayout>
+		</content>
 		<beginButton>
 			<Button text="{i18n>dialogCloseButtonText}" press="onCloseDialog" />
 		</beginButton>

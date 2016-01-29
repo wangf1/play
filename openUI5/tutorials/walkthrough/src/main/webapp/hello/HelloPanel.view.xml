@@ -4,8 +4,8 @@
 	<Panel headerText="{i18n>helloPanelTitle}" class="sapUiResponsiveMargin"
 		width="auto">
 		<content>
-			<Button text="{i18n>openDialogButtonText}" press="onOpenDialog"
-				class="sapUiSmallMarginEnd" />
+			<Button icon="sap-icon://world" text="{i18n>openDialogButtonText}"
+				press="onOpenDialog" class="sapUiSmallMarginEnd" />
 			<Text text="{i18n>showHelloButtonText}" />
 			<Button text="{i18n>showHelloButtonText}" press="onShowHello"
 				class="myCustomButton" />
