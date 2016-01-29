@@ -2,6 +2,7 @@ sap.ui.define([
     "sap/ui/core/mvc/Controller", "sap/m/MessageToast"
 ], function(Controller, MessageToast) {
     "use strict";
+    var sayHelloDialog;
     var privateSayHello = function() {
         var oBundle = this.getView().getModel("i18n").getResourceBundle();
         var sRecipient = this.getView().getModel().getProperty("/recipient/name");
@@ -11,17 +12,23 @@ sap.ui.define([
         MessageToast.show(sMsg);
     };
     var buildSayHelloDialog = function(theController) {
-        var oDialog = sap.ui.xmlfragment("openui5.tutorial.wt.hello.HelloDialog");
-        theController.getView().addDependent(oDialog);
-        return oDialog;
+        if (sayHelloDialog) {
+            return;
+        }
+        sayHelloDialog = sap.ui.xmlfragment("openui5.tutorial.wt.hello.HelloDialog", theController);
+        theController.getView().addDependent(sayHelloDialog);
     };
     var openSayHelloDialog = function() {
-        var oDialog = buildSayHelloDialog(this);
-        oDialog.open();
+        buildSayHelloDialog(this);
+        sayHelloDialog.open();
+    };
+    var closeSayHelloDialog = function() {
+        sayHelloDialog.close();
     };
     var theController = Controller.extend("openui5.tutorial.wt.hello.HelloPanel", {
         onShowHello: privateSayHello,
-        onOpenDialog: openSayHelloDialog
+        onOpenDialog: openSayHelloDialog,
+        onCloseDialog: closeSayHelloDialog
     });
     return theController;
 });
