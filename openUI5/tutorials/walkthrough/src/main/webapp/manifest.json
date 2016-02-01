@@ -18,7 +18,14 @@
     		"settings": {
     			"odataVersion": "2.0"
     		}
-    	}
+    	},
+        "northwindMock": {
+            "uri": "/destinations/northwind/V2/Northwind/Northwind.svc/",
+            "type": "OData",
+            "settings": {
+              "odataVersion": "2.0"
+            }
+        }
 	}
   },
   "sap.ui": {
@@ -50,7 +57,7 @@
 		}
 	  },
       "invoice": {
-          "dataSource": "northwind"
+          "dataSource": "northwindMock"
       }
 	},
 	"resources": {
