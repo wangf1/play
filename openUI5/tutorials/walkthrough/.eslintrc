@@ -6,7 +6,7 @@
 		"jQuery": true,
         "$": true,
         "sap":true,
-        "alert":true,
+        "QUnit":true,
 	},
 
 	"rules": {
