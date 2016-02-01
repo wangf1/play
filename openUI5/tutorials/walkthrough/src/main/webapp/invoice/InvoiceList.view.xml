@@ -2,7 +2,14 @@
 	xmlns="sap.m" controllerName="openui5.tutorial.wt.invoice.InvoiceList"
 	xmlns:html="http://www.w3.org/1999/xhtml">
 	<List id="invoiceList" headerText="{i18n>invoiceListTitle}" class="sapUiResponsiveMargin"
-		width="auto" items="{invoice>/Invoices}">
+		width="auto"
+		items="{
+			path: 'invoice>/Invoices',
+			sorter: {
+				path: 'ShipperName',
+				group: true
+			}
+		}">
 		<headerToolbar>
 			<Toolbar>
 				<Title text="{i18n>invoiceListTitle}" />
