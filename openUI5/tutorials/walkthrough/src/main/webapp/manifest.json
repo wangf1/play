@@ -39,7 +39,11 @@
 		"settings": {
 		  "bundleName": "openui5.tutorial.wt.i18n.i18n"
 		}
-	  }
+	  },
+      "invoice": {
+          "type": "sap.ui.model.json.JSONModel",
+          "settings": "data/Invoices.json"
+      }
 	},
 	"resources": {
         "css": [
