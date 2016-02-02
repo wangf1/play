@@ -1,6 +1,6 @@
 sap.ui.define([
-    "sap/ui/core/mvc/Controller", "sap/ui/core/routing/History"
-], function(Controller, History) {
+    "sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap/m/MessageToast"
+], function(Controller, History, MessageToast) {
     "use strict";
     // I return a closure in order to get a reference of the controller
     var createObjectMatchedEventHandler = function(controller) {
@@ -28,8 +28,16 @@ sap.ui.define([
             oRouter.navTo("overview", true);
         }
     };
+    var onRatingChange = function(oEvent) {
+        var fValue = oEvent.getParameter("value");
+        var oResourceBundle = this.getView().getModel("i18n").getResourceBundle();
+        MessageToast.show(oResourceBundle.getText("ratingConfirmation", [
+            fValue
+        ]));
+    };
     return Controller.extend("openui5.tutorial.wt.main.Detail", {
         onInit: init,
-        onNavBack: onNavBack
+        onNavBack: onNavBack,
+        onRatingChange: onRatingChange
     });
 });
