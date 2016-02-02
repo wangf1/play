@@ -13,6 +13,8 @@ sap.ui.define([
     };
     var privateInit = function(thisController) {
         setJsonModel(thisController);
+        // create the views based on the url/hash
+        thisController.getRouter().initialize();
     };
     var theComponent = UIComponent.extend("openui5.tutorial.wt.Component", {
         metadata: {

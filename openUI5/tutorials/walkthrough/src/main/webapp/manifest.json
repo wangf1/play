@@ -57,7 +57,7 @@
 		}
 	  },
       "invoice": {
-          "dataSource": "northwindMock"
+          "dataSource": "northwind"
       }
 	},
 	"resources": {
@@ -66,6 +66,35 @@
             "uri": "css/style.css"
           }
         ]
+    },
+    "routing": {
+    "config": {
+        "routerClass": "sap.m.routing.Router",
+        "viewType": "XML",
+        "viewPath": "openui5.tutorial.wt",
+        "controlId": "app",
+        "controlAggregation": "pages"
+      },
+      "routes": [
+        {
+          "pattern": "",
+          "name": "overview",
+          "target": "overview"
+        },
+        {
+          "pattern": "detail",
+          "name": "detail",
+          "target": "detail"
+        }
+      ],
+      "targets": {
+        "overview": {
+          "viewName": "main.Overview"
+        },
+        "detail": {
+          "viewName": "main.Detail"
+        }
+      }
     }
   }
 }

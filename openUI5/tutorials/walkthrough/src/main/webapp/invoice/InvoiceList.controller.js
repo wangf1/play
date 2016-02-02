@@ -18,10 +18,15 @@ sap.ui.define([
         var oBinding = oList.getBinding("items");
         oBinding.filter(aFilter);
     };
+    var onPress = function(oEvent) {
+        var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+        oRouter.navTo("detail");
+    };
     var controller = Controller.extend("openui5.tutorial.wt.invoice.InvoiceList", {
         formatter: formatter,
         onInit: init,
-        onFilterInvoices: onFilterInvoices
+        onFilterInvoices: onFilterInvoices,
+        onPress: onPress
     });
     return controller;
 });
