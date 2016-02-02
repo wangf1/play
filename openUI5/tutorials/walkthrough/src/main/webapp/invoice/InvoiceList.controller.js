@@ -19,8 +19,11 @@ sap.ui.define([
         oBinding.filter(aFilter);
     };
     var onPress = function(oEvent) {
+        var oItem = oEvent.getSource();
         var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-        oRouter.navTo("detail");
+        oRouter.navTo("detail", {
+            invoicePath: oItem.getBindingContext("invoice").getPath().substr(1)
+        });
     };
     var controller = Controller.extend("openui5.tutorial.wt.invoice.InvoiceList", {
         formatter: formatter,
