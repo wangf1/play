@@ -1,6 +1,6 @@
 sap.ui.define([
-    "sap/ui/core/UIComponent", "sap/ui/model/json/JSONModel", "sap/ui/model/resource/ResourceModel"
-], function(UIComponent, JSONModel) {
+    "sap/ui/core/UIComponent", "sap/ui/model/json/JSONModel", "sap/ui/model/resource/ResourceModel", "sap/ui/Device"
+], function(UIComponent, JSONModel, Device) {
     "use strict";
     var setJsonModel = function(thisController) {
         var oData = {
@@ -15,6 +15,10 @@ sap.ui.define([
         setJsonModel(thisController);
         // create the views based on the url/hash
         thisController.getRouter().initialize();
+        // set device model
+        var oDeviceModel = new JSONModel(Device);
+        oDeviceModel.setDefaultBindingMode("OneWay");
+        thisController.setModel(oDeviceModel, "device");
     };
     var theComponent = UIComponent.extend("openui5.tutorial.wt.Component", {
         metadata: {

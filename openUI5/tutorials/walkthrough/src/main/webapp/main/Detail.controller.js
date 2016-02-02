@@ -1,6 +1,6 @@
 sap.ui.define([
-    "sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap/m/MessageToast"
-], function(Controller, History, MessageToast) {
+    "sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap/m/MessageToast", "sap/ui/model/json/JSONModel"
+], function(Controller, History, MessageToast, JSONModel) {
     "use strict";
     // I return a closure in order to get a reference of the controller
     var createObjectMatchedEventHandler = function(controller) {
@@ -13,6 +13,10 @@ sap.ui.define([
         return eventHandler;
     };
     var init = function() {
+        var oViewModel = new JSONModel({
+            currency: "EUR"
+        });
+        this.getView().setModel(oViewModel, "view");
         var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
         var onObjectMatched = createObjectMatchedEventHandler(this);
         oRouter.getRoute("detail").attachPatternMatched(onObjectMatched, this);

@@ -2,10 +2,10 @@
 	xmlns="sap.m" controllerName="openui5.tutorial.wt.hello.HelloPanel"
 	xmlns:html="http://www.w3.org/1999/xhtml">
 	<Panel headerText="{i18n>helloPanelTitle}" class="sapUiResponsiveMargin"
-		width="auto">
+		width="auto" expandable="{device>/system/phone}" expanded="{= !${device>/system/phone} }">
 		<content>
 			<Button icon="sap-icon://world" text="{i18n>openDialogButtonText}"
-				press="onOpenDialog" class="sapUiSmallMarginEnd" />
+				press="onOpenDialog" class="sapUiSmallMarginEnd sapUiVisibleOnlyOnDesktop" />
 			<Text text="{i18n>showHelloButtonText}" />
 			<Button text="{i18n>showHelloButtonText}" press="onShowHello"
 				class="myCustomButton" />
