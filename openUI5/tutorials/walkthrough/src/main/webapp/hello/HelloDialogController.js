@@ -1,6 +1,6 @@
 sap.ui.define([
-    "sap/ui/base/Object"
-], function(Object) {
+    "sap/ui/base/Object", "openui5/tutorial/wt/helper/styleHelper"
+], function(Object, styleHelper) {
     "use strict";
     var sayHelloDialog;
     var buildSayHelloDialog = function(theController) {
@@ -11,6 +11,8 @@ sap.ui.define([
     };
     var openSayHelloDialog = function(oView) {
         buildSayHelloDialog(this);
+        // forward compact/cozy style into Dialog
+        jQuery.sap.syncStyleClass(styleHelper.getContentDensityClass(), oView, sayHelloDialog);
         oView.addDependent(sayHelloDialog);
         sayHelloDialog.open();
     };
