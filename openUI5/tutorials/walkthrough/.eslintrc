@@ -7,6 +7,7 @@
         "$": true,
         "sap":true,
         "QUnit":true,
+        "opaTest":true,
 	},
 
 	"rules": {
