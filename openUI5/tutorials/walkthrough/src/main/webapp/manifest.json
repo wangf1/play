@@ -57,7 +57,7 @@
 		}
 	  },
       "invoice": {
-          "dataSource": "northwind"
+          "dataSource": "northwindMock"
       }
 	},
 	"resources": {

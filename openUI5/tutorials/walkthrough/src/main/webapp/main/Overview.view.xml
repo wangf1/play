@@ -6,7 +6,8 @@
 		</headerContent>
 		<content>
 			<mvc:XMLView viewName="openui5.tutorial.wt.hello.HelloPanel" />
-			<mvc:XMLView viewName="openui5.tutorial.wt.invoice.InvoiceList" />
+			<!-- <mvc:XMLView viewName="openui5.tutorial.wt.invoice.InvoiceList" /> -->
+			<mvc:JSView viewName="openui5.tutorial.wt.invoice.InvoiceTable" />
 		</content>
 	</Page>
 </mvc:View>
