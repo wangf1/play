@@ -1,13 +1,19 @@
 package com.wangf.compiler.frontend;
 
+import java.io.IOException;
+
 import com.wangf.compiler.intermediate.IIntermediateCode;
 import com.wangf.compiler.intermediate.ISymbolTable;
 
-public class Parser {
+public abstract class Parser {
 
-	public void parse() {
+	protected Scanner scanner;
 
+	public Parser(Scanner scanner) {
+		this.scanner = scanner;
 	}
+
+	public abstract void parse() throws IOException;
 
 	public IIntermediateCode getIntermediateCode() {
 		return null;

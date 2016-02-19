@@ -5,8 +5,11 @@ import com.wangf.compiler.frontend.pascal.PascalTopDownParser;
 
 public class FrontendFactory {
 
+	public static final String PASER_TYPE_TOP_DOWN = "top-down";
+	public static final String LANGUAGE_PASCAL = "Pascal";
+
 	public static Parser createParser(String language, String paserType, Source source) {
-		if (language.equalsIgnoreCase("Pascal") && paserType.equalsIgnoreCase("top-down")) {
+		if (language.equalsIgnoreCase(LANGUAGE_PASCAL) && paserType.equalsIgnoreCase(PASER_TYPE_TOP_DOWN)) {
 			Scanner scanner = new PascalScanner(source);
 			return new PascalTopDownParser(scanner);
 		} else {

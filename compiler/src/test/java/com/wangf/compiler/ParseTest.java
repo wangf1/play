@@ -21,7 +21,8 @@ public class ParseTest {
 				InputStreamReader reader = new InputStreamReader(in);
 				Source source = new Source(reader)) {
 
-			Parser parser = FrontendFactory.createParser("Pascal", "top-down", source);
+			Parser parser = FrontendFactory.createParser(FrontendFactory.LANGUAGE_PASCAL,
+					FrontendFactory.PASER_TYPE_TOP_DOWN, source);
 
 			Backend backend = BackendFactory.createBackend(BackendFactory.OPERATION_COMPILE);
 
