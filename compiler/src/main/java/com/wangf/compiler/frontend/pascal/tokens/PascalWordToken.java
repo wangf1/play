@@ -20,6 +20,7 @@ public class PascalWordToken extends Token {
 			valueBuffer.append(currentChar);
 			currentChar = source.nextChar();
 		} while (Character.isLetterOrDigit(currentChar));
+		text.append(valueBuffer);
 		value = valueBuffer.toString();
 		setType();
 	}

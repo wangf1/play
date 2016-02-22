@@ -6,6 +6,7 @@ import com.wangf.compiler.frontend.EofToken;
 import com.wangf.compiler.frontend.Scanner;
 import com.wangf.compiler.frontend.Source;
 import com.wangf.compiler.frontend.Token;
+import com.wangf.compiler.frontend.pascal.tokens.PascalNumberToken;
 import com.wangf.compiler.frontend.pascal.tokens.PascalStringToken;
 import com.wangf.compiler.frontend.pascal.tokens.PascalWordToken;
 
@@ -30,6 +31,8 @@ public class PascalScanner extends Scanner {
 			token = new PascalWordToken(source);
 		} else if (currentChar == '\'') {
 			token = new PascalStringToken(source);
+		} else if (Character.isDigit(currentChar)) {
+			token = new PascalNumberToken(source);
 		} else {
 			token = new Token(source);
 		}

@@ -32,6 +32,7 @@ public class PascalStringToken extends PascalToken {
 				}
 			}
 		}
+		text.append(valueBuffer);
 		if (currentChar == SINGLE_QUOTE) {
 			source.nextChar();
 			type = PascalTokenType.STRING;
