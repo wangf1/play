@@ -5,9 +5,9 @@ import java.io.IOException;
 import com.wangf.compiler.frontend.Source;
 import com.wangf.compiler.frontend.Token;
 
-public class EofToken extends Token {
+public class PascalToken extends Token {
 
-	public EofToken(Source source) throws IOException {
+	public PascalToken(Source source) throws IOException {
 		super(source);
 	}
 

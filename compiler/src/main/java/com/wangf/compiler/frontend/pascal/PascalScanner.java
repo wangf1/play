@@ -2,9 +2,11 @@ package com.wangf.compiler.frontend.pascal;
 
 import java.io.IOException;
 
+import com.wangf.compiler.frontend.EofToken;
 import com.wangf.compiler.frontend.Scanner;
 import com.wangf.compiler.frontend.Source;
 import com.wangf.compiler.frontend.Token;
+import com.wangf.compiler.frontend.pascal.tokens.PascalStringToken;
 
 public class PascalScanner extends Scanner {
 
@@ -14,6 +16,8 @@ public class PascalScanner extends Scanner {
 
 	@Override
 	protected Token extractToken() throws IOException {
+		skipWhiteSpace();
+
 		Token token;
 		char currentChar = source.currentChar();
 
@@ -21,11 +25,18 @@ public class PascalScanner extends Scanner {
 		// token type.
 		if (currentChar == Source.EOF) {
 			token = new EofToken(source);
+		} else if (currentChar == '\'') {
+			token = new PascalStringToken(source);
 		} else {
 			token = new Token(source);
 		}
 
 		return token;
+	}
+
+	private void skipWhiteSpace() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

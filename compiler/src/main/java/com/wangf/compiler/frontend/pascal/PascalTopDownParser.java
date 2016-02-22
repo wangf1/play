@@ -2,6 +2,7 @@ package com.wangf.compiler.frontend.pascal;
 
 import java.io.IOException;
 
+import com.wangf.compiler.frontend.EofToken;
 import com.wangf.compiler.frontend.Parser;
 import com.wangf.compiler.frontend.Scanner;
 import com.wangf.compiler.frontend.Token;

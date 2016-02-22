@@ -1,6 +1,6 @@
 PROGRAM hello (output);
 
-{Write 'Hello, world.' ten times.}
+{Write 'Hello, compiler''s world.' ten times.}
 
 VAR
     i : integer;
