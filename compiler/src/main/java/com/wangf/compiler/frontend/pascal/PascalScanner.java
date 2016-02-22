@@ -7,6 +7,7 @@ import com.wangf.compiler.frontend.Scanner;
 import com.wangf.compiler.frontend.Source;
 import com.wangf.compiler.frontend.Token;
 import com.wangf.compiler.frontend.pascal.tokens.PascalStringToken;
+import com.wangf.compiler.frontend.pascal.tokens.PascalWordToken;
 
 public class PascalScanner extends Scanner {
 
@@ -25,6 +26,8 @@ public class PascalScanner extends Scanner {
 		// token type.
 		if (currentChar == Source.EOF) {
 			token = new EofToken(source);
+		} else if (Character.isLetter(currentChar)) {
+			token = new PascalWordToken(source);
 		} else if (currentChar == '\'') {
 			token = new PascalStringToken(source);
 		} else {
@@ -34,9 +37,17 @@ public class PascalScanner extends Scanner {
 		return token;
 	}
 
-	private void skipWhiteSpace() {
-		// TODO Auto-generated method stub
-
+	private void skipWhiteSpace() throws IOException {
+		char currentChar = source.currentChar();
+		while (Character.isWhitespace(currentChar) || currentChar == KeyCharacterConst.COMMENT_START) {
+			if (currentChar == KeyCharacterConst.COMMENT_START) {
+				do {
+					currentChar = source.nextChar();
+				} while (currentChar != KeyCharacterConst.COMMENT_END && currentChar != Source.EOF);
+			} else {
+				currentChar = source.nextChar();
+			}
+		}
 	}
 
 }
