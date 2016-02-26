@@ -1,16 +1,20 @@
 package org.apache.olingo.odata2.sample.service;
 
+import static org.apache.olingo.odata2.sample.service.MyEdmProvider.ENTITY_NAME_MANUFACTURER;
 import static org.apache.olingo.odata2.sample.service.MyEdmProvider.ENTITY_SET_NAME_CARS;
 import static org.apache.olingo.odata2.sample.service.MyEdmProvider.ENTITY_SET_NAME_MANUFACTURERS;
 
 import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.olingo.odata2.api.ODataCallback;
 import org.apache.olingo.odata2.api.commons.HttpStatusCodes;
 import org.apache.olingo.odata2.api.edm.EdmEntitySet;
+import org.apache.olingo.odata2.api.edm.EdmException;
 import org.apache.olingo.odata2.api.edm.EdmLiteralKind;
 import org.apache.olingo.odata2.api.edm.EdmProperty;
 import org.apache.olingo.odata2.api.edm.EdmSimpleType;
@@ -24,7 +28,9 @@ import org.apache.olingo.odata2.api.exception.ODataNotFoundException;
 import org.apache.olingo.odata2.api.exception.ODataNotImplementedException;
 import org.apache.olingo.odata2.api.processor.ODataResponse;
 import org.apache.olingo.odata2.api.processor.ODataSingleProcessor;
+import org.apache.olingo.odata2.api.uri.ExpandSelectTreeNode;
 import org.apache.olingo.odata2.api.uri.KeyPredicate;
+import org.apache.olingo.odata2.api.uri.UriParser;
 import org.apache.olingo.odata2.api.uri.info.DeleteUriInfo;
 import org.apache.olingo.odata2.api.uri.info.GetEntitySetUriInfo;
 import org.apache.olingo.odata2.api.uri.info.GetEntityUriInfo;
@@ -53,7 +59,7 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 					URI serviceRoot = getContext().getPathInfo().getServiceRoot();
 					ODataEntityProviderPropertiesBuilder propertiesBuilder = EntityProviderWriteProperties
 							.serviceRoot(serviceRoot);
-
+					expandManufacturer(uriInfo, serviceRoot, propertiesBuilder);
 					return EntityProvider.writeEntry(contentType, entitySet, data, propertiesBuilder.build());
 				}
 			} else if (ENTITY_SET_NAME_MANUFACTURERS.equals(entitySet.getName())) {
@@ -64,7 +70,7 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 					URI serviceRoot = getContext().getPathInfo().getServiceRoot();
 					ODataEntityProviderPropertiesBuilder propertiesBuilder = EntityProviderWriteProperties
 							.serviceRoot(serviceRoot);
-
+					expandCars(uriInfo, serviceRoot, propertiesBuilder);
 					return EntityProvider.writeEntry(contentType, entitySet, data, propertiesBuilder.build());
 				}
 			}
@@ -86,6 +92,24 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 		}
 
 		throw new ODataNotImplementedException();
+	}
+
+	private void expandCars(GetEntityUriInfo uriInfo, URI serviceRoot,
+			ODataEntityProviderPropertiesBuilder propertiesBuilder) throws EdmException {
+		Map<String, ODataCallback> callbacks = new HashMap<String, ODataCallback>();
+		callbacks.put(ENTITY_SET_NAME_CARS, new MyCallback(dataStore, serviceRoot));
+		ExpandSelectTreeNode expandSelectTreeNode = UriParser.createExpandSelectTree(uriInfo.getSelect(),
+				uriInfo.getExpand());
+		propertiesBuilder.expandSelectTree(expandSelectTreeNode).callbacks(callbacks);
+	}
+
+	private void expandManufacturer(GetEntityUriInfo uriInfo, URI serviceRoot,
+			ODataEntityProviderPropertiesBuilder propertiesBuilder) throws EdmException {
+		Map<String, ODataCallback> callbacks = new HashMap<String, ODataCallback>();
+		callbacks.put(ENTITY_NAME_MANUFACTURER, new MyCallback(dataStore, serviceRoot));
+		ExpandSelectTreeNode expandSelectTreeNode = UriParser.createExpandSelectTree(uriInfo.getSelect(),
+				uriInfo.getExpand());
+		propertiesBuilder.expandSelectTree(expandSelectTreeNode).callbacks(callbacks);
 	}
 
 	public ODataResponse readEntitySet(GetEntitySetUriInfo uriInfo, String contentType) throws ODataException {
