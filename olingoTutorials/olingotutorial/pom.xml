@@ -1,0 +1,56 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.wangf</groupId>
+	<artifactId>olingotutorial</artifactId>
+	<packaging>war</packaging>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>olingotutorial Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<version.servlet-api>2.5</version.servlet-api>
+		<version.compiler-plugin>2.3.2</version.compiler-plugin>
+		<version.olingo>2.0.6-sap-01</version.olingo>
+		<version.cxf>2.7.13-sap-01</version.cxf>
+	</properties>
+
+	<build>
+		<finalName>olingotutorial</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${version.compiler-plugin}</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.olingo</groupId>
+			<artifactId>olingo-odata2-core</artifactId>
+			<version>${version.olingo}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.olingo</groupId>
+			<artifactId>olingo-odata2-annotation-processor-core</artifactId>
+			<version>${version.olingo}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxrs</artifactId>
+			<version>${version.cxf}</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>
