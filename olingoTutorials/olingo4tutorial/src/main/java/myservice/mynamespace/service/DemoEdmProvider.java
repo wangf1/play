@@ -30,123 +30,178 @@ import org.apache.olingo.commons.api.edm.provider.CsdlEntityContainer;
 import org.apache.olingo.commons.api.edm.provider.CsdlEntityContainerInfo;
 import org.apache.olingo.commons.api.edm.provider.CsdlEntitySet;
 import org.apache.olingo.commons.api.edm.provider.CsdlEntityType;
+import org.apache.olingo.commons.api.edm.provider.CsdlNavigationProperty;
+import org.apache.olingo.commons.api.edm.provider.CsdlNavigationPropertyBinding;
 import org.apache.olingo.commons.api.edm.provider.CsdlProperty;
 import org.apache.olingo.commons.api.edm.provider.CsdlPropertyRef;
 import org.apache.olingo.commons.api.edm.provider.CsdlSchema;
 
 /**
- * this class is supposed to declare the metadata of the OData service
- * it is invoked by the Olingo framework e.g. when the metadata document of the service is invoked
- * e.g. http://localhost:8080/ExampleService1/ExampleService1.svc/$metadata
+ * this class is supposed to declare the metadata of the OData service it is
+ * invoked by the Olingo framework e.g. when the metadata document of the
+ * service is invoked e.g.
+ * http://localhost:8080/ExampleService1/ExampleService1.svc/$metadata
  */
 public class DemoEdmProvider extends CsdlAbstractEdmProvider {
 
-  // Service Namespace
-  public static final String NAMESPACE = "OData.Demo";
+	// Service Namespace
+	public static final String NAMESPACE = "OData.Demo";
 
-  // EDM Container
-  public static final String CONTAINER_NAME = "Container";
-  public static final FullQualifiedName CONTAINER = new FullQualifiedName(NAMESPACE, CONTAINER_NAME);
+	// EDM Container
+	public static final String CONTAINER_NAME = "Container";
+	public static final FullQualifiedName CONTAINER = new FullQualifiedName(NAMESPACE, CONTAINER_NAME);
 
-  // Entity Types Names
-  public static final String ET_PRODUCT_NAME = "Product";
-  public static final FullQualifiedName ET_PRODUCT_FQN = new FullQualifiedName(NAMESPACE, ET_PRODUCT_NAME);
+	// Entity Types Names
+	public static final String ET_PRODUCT_NAME = "Product";
+	public static final FullQualifiedName ET_PRODUCT_FQN = new FullQualifiedName(NAMESPACE, ET_PRODUCT_NAME);
 
-  // Entity Set Names
-  public static final String ES_PRODUCTS_NAME = "Products";
+	public static final String ET_CATEGORY_NAME = "Category";
+	public static final FullQualifiedName ET_CATEGORY_FQN = new FullQualifiedName(NAMESPACE, ET_CATEGORY_NAME);
 
+	// Entity Set Names
+	public static final String ES_PRODUCTS_NAME = "Products";
+	public static final String ES_CATEGORIES_NAME = "Categories";
+	public static final String NAV_TO_PRODUCTS = "Products";
 
-  @Override
-  public List<CsdlSchema> getSchemas() {
+	@Override
+	public List<CsdlSchema> getSchemas() {
 
-    // create Schema
-    CsdlSchema schema = new CsdlSchema();
-    schema.setNamespace(NAMESPACE);
+		// create Schema
+		CsdlSchema schema = new CsdlSchema();
+		schema.setNamespace(NAMESPACE);
 
-    // add EntityTypes
-    List<CsdlEntityType> entityTypes = new ArrayList<CsdlEntityType>();
-    entityTypes.add(getEntityType(ET_PRODUCT_FQN));
-    schema.setEntityTypes(entityTypes);
+		// add EntityTypes
+		List<CsdlEntityType> entityTypes = new ArrayList<CsdlEntityType>();
+		entityTypes.add(getEntityType(ET_PRODUCT_FQN));
+		entityTypes.add(getEntityType(ET_CATEGORY_FQN));
+		schema.setEntityTypes(entityTypes);
 
-    // add EntityContainer
-    schema.setEntityContainer(getEntityContainer());
+		// add EntityContainer
+		schema.setEntityContainer(getEntityContainer());
 
-    // finally
-    List<CsdlSchema> schemas = new ArrayList<CsdlSchema>();
-    schemas.add(schema);
+		// finally
+		List<CsdlSchema> schemas = new ArrayList<CsdlSchema>();
+		schemas.add(schema);
 
-    return schemas;
-  }
+		return schemas;
+	}
 
+	@Override
+	public CsdlEntityType getEntityType(FullQualifiedName entityTypeName) {
 
-  @Override
-  public CsdlEntityType getEntityType(FullQualifiedName entityTypeName) {
+		// this method is called for one of the EntityTypes that are configured
+		// in the Schema
+		if (entityTypeName.equals(ET_PRODUCT_FQN)) {
 
-    // this method is called for one of the EntityTypes that are configured in the Schema
-    if(entityTypeName.equals(ET_PRODUCT_FQN)){
+			// create EntityType properties
+			CsdlProperty id = new CsdlProperty().setName("ID")
+					.setType(EdmPrimitiveTypeKind.Int32.getFullQualifiedName());
+			CsdlProperty name = new CsdlProperty().setName("Name")
+					.setType(EdmPrimitiveTypeKind.String.getFullQualifiedName());
+			CsdlProperty description = new CsdlProperty().setName("Description")
+					.setType(EdmPrimitiveTypeKind.String.getFullQualifiedName());
 
-      //create EntityType properties
-      CsdlProperty id = new CsdlProperty().setName("ID").setType(EdmPrimitiveTypeKind.Int32.getFullQualifiedName());
-      CsdlProperty name = new CsdlProperty().setName("Name").setType(EdmPrimitiveTypeKind.String.getFullQualifiedName());
-      CsdlProperty  description = new CsdlProperty().setName("Description").setType(EdmPrimitiveTypeKind.String.getFullQualifiedName());
+			// create CsdlPropertyRef for Key element
+			CsdlPropertyRef propertyRef = new CsdlPropertyRef();
+			propertyRef.setName("ID");
 
-      // create CsdlPropertyRef for Key element
-      CsdlPropertyRef propertyRef = new CsdlPropertyRef();
-      propertyRef.setName("ID");
+			// configure EntityType
+			CsdlEntityType entityType = new CsdlEntityType();
+			entityType.setName(ET_PRODUCT_NAME);
+			entityType.setProperties(Arrays.asList(id, name, description));
+			entityType.setKey(Collections.singletonList(propertyRef));
 
-      // configure EntityType
-      CsdlEntityType entityType = new CsdlEntityType();
-      entityType.setName(ET_PRODUCT_NAME);
-      entityType.setProperties(Arrays.asList(id, name , description));
-      entityType.setKey(Collections.singletonList(propertyRef));
+			return entityType;
+		} else if (entityTypeName.equals(ET_CATEGORY_FQN)) {
+			// create EntityType properties
+			CsdlProperty id = new CsdlProperty().setName("ID")
+					.setType(EdmPrimitiveTypeKind.Int32.getFullQualifiedName());
+			CsdlProperty name = new CsdlProperty().setName("Name")
+					.setType(EdmPrimitiveTypeKind.String.getFullQualifiedName());
 
-      return entityType;
-    }
+			// create PropertyRef for Key element
+			CsdlPropertyRef propertyRef = new CsdlPropertyRef();
+			propertyRef.setName("ID");
 
-    return null;
-  }
+			// navigation property: one-to-many
+			CsdlNavigationProperty navProp = new CsdlNavigationProperty().setName(NAV_TO_PRODUCTS)
+					.setType(ET_PRODUCT_FQN).setCollection(true).setPartner("Category");
+			List<CsdlNavigationProperty> navPropList = new ArrayList<CsdlNavigationProperty>();
+			navPropList.add(navProp);
 
-  @Override
-  public CsdlEntitySet getEntitySet(FullQualifiedName entityContainer, String entitySetName) {
+			// configure EntityType
+			CsdlEntityType entityType = new CsdlEntityType();
+			entityType.setName(ET_CATEGORY_NAME);
+			entityType.setProperties(Arrays.asList(id, name));
+			entityType.setKey(Arrays.asList(propertyRef));
+			entityType.setNavigationProperties(navPropList);
 
-    if(entityContainer.equals(CONTAINER)){
-      if(entitySetName.equals(ES_PRODUCTS_NAME)){
-        CsdlEntitySet entitySet = new CsdlEntitySet();
-        entitySet.setName(ES_PRODUCTS_NAME);
-        entitySet.setType(ET_PRODUCT_FQN);
+			return entityType;
+		}
 
-        return entitySet;
-      }
-    }
+		return null;
+	}
 
-    return null;
-  }
+	@Override
+	public CsdlEntitySet getEntitySet(FullQualifiedName entityContainer, String entitySetName) {
 
-  @Override
-  public CsdlEntityContainer getEntityContainer() {
+		if (entityContainer.equals(CONTAINER)) {
+			if (entitySetName.equals(ES_PRODUCTS_NAME)) {
+				CsdlEntitySet entitySet = new CsdlEntitySet();
+				entitySet.setName(ES_PRODUCTS_NAME);
+				entitySet.setType(ET_PRODUCT_FQN);
 
-    // create EntitySets
-    List<CsdlEntitySet> entitySets = new ArrayList<CsdlEntitySet>();
-    entitySets.add(getEntitySet(CONTAINER, ES_PRODUCTS_NAME));
+				return entitySet;
+			} else if (entitySetName.equals(ES_CATEGORIES_NAME)) {
+				CsdlEntitySet entitySet = new CsdlEntitySet();
+				entitySet = new CsdlEntitySet();
+				entitySet.setName(ES_CATEGORIES_NAME);
+				entitySet.setType(ET_CATEGORY_FQN);
 
-    // create EntityContainer
-    CsdlEntityContainer entityContainer = new CsdlEntityContainer();
-    entityContainer.setName(CONTAINER_NAME);
-    entityContainer.setEntitySets(entitySets);
+				// navigation
+				CsdlNavigationPropertyBinding navPropBinding = new CsdlNavigationPropertyBinding();
+				// the target entity set, where the navigation property points
+				// to
+				navPropBinding.setTarget("Products");
+				// the path from entity type to navigation property
+				navPropBinding.setPath("Products");
+				List<CsdlNavigationPropertyBinding> navPropBindingList = new ArrayList<CsdlNavigationPropertyBinding>();
+				navPropBindingList.add(navPropBinding);
+				entitySet.setNavigationPropertyBindings(navPropBindingList);
+				return entitySet;
+			}
+		}
 
-    return entityContainer;
-  }
+		return null;
+	}
 
-  @Override
-  public CsdlEntityContainerInfo getEntityContainerInfo(FullQualifiedName entityContainerName) {
+	@Override
+	public CsdlEntityContainer getEntityContainer() {
 
-    // This method is invoked when displaying the service document at e.g. http://localhost:8080/DemoService/DemoService.svc
-    if(entityContainerName == null || entityContainerName.equals(CONTAINER)){
-      CsdlEntityContainerInfo entityContainerInfo = new CsdlEntityContainerInfo();
-      entityContainerInfo.setContainerName(CONTAINER);
-      return entityContainerInfo;
-    }
+		// create EntitySets
+		List<CsdlEntitySet> entitySets = new ArrayList<CsdlEntitySet>();
+		entitySets.add(getEntitySet(CONTAINER, ES_PRODUCTS_NAME));
+		entitySets.add(getEntitySet(CONTAINER, ES_CATEGORIES_NAME));
 
-    return null;
-  }
+		// create EntityContainer
+		CsdlEntityContainer entityContainer = new CsdlEntityContainer();
+		entityContainer.setName(CONTAINER_NAME);
+		entityContainer.setEntitySets(entitySets);
+
+		return entityContainer;
+	}
+
+	@Override
+	public CsdlEntityContainerInfo getEntityContainerInfo(FullQualifiedName entityContainerName) {
+
+		// This method is invoked when displaying the service document at e.g.
+		// http://localhost:8080/DemoService/DemoService.svc
+		if (entityContainerName == null || entityContainerName.equals(CONTAINER)) {
+			CsdlEntityContainerInfo entityContainerInfo = new CsdlEntityContainerInfo();
+			entityContainerInfo.setContainerName(CONTAINER);
+			return entityContainerInfo;
+		}
+
+		return null;
+	}
 }
