@@ -13,6 +13,8 @@ import org.apache.olingo.server.api.processor.EntityCollectionProcessor;
 import org.apache.olingo.server.api.processor.Processor;
 import org.apache.olingo.server.api.uri.UriInfo;
 
+import myservice.mynamespace.service.api.IEntityCollectionProcessor;
+
 /**
  * This class use a simplified responsibility chain pattern, in order to make
  * 3rd party {@link Processor} can be registered and handle specific request.
@@ -31,9 +33,9 @@ public class EntityCollectionProcessorChain implements EntityCollectionProcessor
 
 	@Override
 	public void init(OData odata, ServiceMetadata serviceMetadata) {
-		List<EntityCollectionProcessor> processors = OlingoProcessorAndMetadataRegister.instance
+		List<IEntityCollectionProcessor> processors = OlingoProcessorAndMetadataRegister.instance
 				.getEntityCollectionProcessors();
-		for (EntityCollectionProcessor processor : processors) {
+		for (IEntityCollectionProcessor processor : processors) {
 			processor.init(odata, serviceMetadata);
 		}
 	}
@@ -41,11 +43,18 @@ public class EntityCollectionProcessorChain implements EntityCollectionProcessor
 	@Override
 	public void readEntityCollection(ODataRequest request, ODataResponse response, UriInfo uriInfo,
 			ContentType responseFormat) throws ODataApplicationException, ODataLibraryException {
-		List<EntityCollectionProcessor> processors = OlingoProcessorAndMetadataRegister.instance
-				.getEntityCollectionProcessors();
-		for (EntityCollectionProcessor processor : processors) {
-			processor.readEntityCollection(request, response, uriInfo, responseFormat);
-		}
+		IEntityCollectionProcessor processor = selectProcessor(uriInfo);
+		processor.readEntityCollection(request, response, uriInfo, responseFormat);
 	}
 
+	private IEntityCollectionProcessor selectProcessor(UriInfo uriInfo) {
+		List<IEntityCollectionProcessor> processors = OlingoProcessorAndMetadataRegister.instance
+				.getEntityCollectionProcessors();
+		for (IEntityCollectionProcessor processor : processors) {
+			if (processor.canHandle(uriInfo)) {
+				return processor;
+			}
+		}
+		return null;
+	}
 }

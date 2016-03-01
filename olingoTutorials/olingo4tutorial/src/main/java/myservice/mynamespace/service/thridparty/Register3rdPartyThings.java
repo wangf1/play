@@ -14,8 +14,8 @@ import org.apache.olingo.commons.api.edm.provider.CsdlNavigationPropertyBinding;
 import org.apache.olingo.commons.api.edm.provider.CsdlProperty;
 import org.apache.olingo.commons.api.edm.provider.CsdlPropertyRef;
 
-import myservice.mynamespace.service.IOdataProcessorAndMetadataRegister;
 import myservice.mynamespace.service.OlingoProcessorAndMetadataRegister;
+import myservice.mynamespace.service.api.IOdataProcessorAndMetadataRegister;
 
 public class Register3rdPartyThings {
 

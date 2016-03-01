@@ -30,6 +30,8 @@ import org.apache.olingo.commons.api.edm.provider.CsdlEntitySet;
 import org.apache.olingo.commons.api.edm.provider.CsdlEntityType;
 import org.apache.olingo.commons.api.edm.provider.CsdlSchema;
 
+import myservice.mynamespace.service.api.IOdataProcessorAndMetadataRegister;
+
 /**
  * this class is supposed to declare the metadata of the OData service it is
  * invoked by the Olingo framework e.g. when the metadata document of the

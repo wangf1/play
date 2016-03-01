@@ -8,11 +8,13 @@ import java.util.Map;
 import org.apache.olingo.commons.api.edm.FullQualifiedName;
 import org.apache.olingo.commons.api.edm.provider.CsdlEntitySet;
 import org.apache.olingo.commons.api.edm.provider.CsdlEntityType;
-import org.apache.olingo.server.api.processor.EntityCollectionProcessor;
 import org.apache.olingo.server.api.processor.EntityProcessor;
 import org.apache.olingo.server.api.processor.PrimitiveProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import myservice.mynamespace.service.api.IEntityCollectionProcessor;
+import myservice.mynamespace.service.api.IOdataProcessorAndMetadataRegister;
 
 public class OlingoProcessorAndMetadataRegister implements IOdataProcessorAndMetadataRegister {
 
@@ -20,7 +22,7 @@ public class OlingoProcessorAndMetadataRegister implements IOdataProcessorAndMet
 
 	private Logger LOG = LoggerFactory.getLogger(getClass());
 
-	private List<EntityCollectionProcessor> entityCollectionProcessors = new LinkedList<>();
+	private List<IEntityCollectionProcessor> entityCollectionProcessors = new LinkedList<>();
 	private List<EntityProcessor> entityProcessors = new LinkedList<>();
 	private List<PrimitiveProcessor> primitiveProcessors = new LinkedList<>();
 	private Map<FullQualifiedName, CsdlEntityType> entityTypes = new HashMap<>();
@@ -30,7 +32,7 @@ public class OlingoProcessorAndMetadataRegister implements IOdataProcessorAndMet
 	}
 
 	@Override
-	public void registerEntityCollectionProcessor(EntityCollectionProcessor processor) {
+	public void registerEntityCollectionProcessor(IEntityCollectionProcessor processor) {
 		if (processor == null) {
 			LOG.warn("Should not register null Olingo Processor");
 			return;
@@ -60,7 +62,7 @@ public class OlingoProcessorAndMetadataRegister implements IOdataProcessorAndMet
 		entitySets.put(entitySet.getName(), entitySet);
 	}
 
-	List<EntityCollectionProcessor> getEntityCollectionProcessors() {
+	List<IEntityCollectionProcessor> getEntityCollectionProcessors() {
 		return entityCollectionProcessors;
 	}
 

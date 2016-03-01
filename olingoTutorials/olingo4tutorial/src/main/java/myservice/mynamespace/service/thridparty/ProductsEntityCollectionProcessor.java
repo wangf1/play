@@ -32,7 +32,6 @@ import org.apache.olingo.server.api.ODataApplicationException;
 import org.apache.olingo.server.api.ODataRequest;
 import org.apache.olingo.server.api.ODataResponse;
 import org.apache.olingo.server.api.ServiceMetadata;
-import org.apache.olingo.server.api.processor.EntityCollectionProcessor;
 import org.apache.olingo.server.api.serializer.EntityCollectionSerializerOptions;
 import org.apache.olingo.server.api.serializer.ODataSerializer;
 import org.apache.olingo.server.api.serializer.SerializerException;
@@ -41,6 +40,7 @@ import org.apache.olingo.server.api.uri.UriInfo;
 import org.apache.olingo.server.api.uri.UriResource;
 import org.apache.olingo.server.api.uri.UriResourceEntitySet;
 
+import myservice.mynamespace.service.api.IEntityCollectionProcessor;
 import myservice.mynamespace.service.thirdparty.data.Storage;
 
 /**
@@ -49,7 +49,7 @@ import myservice.mynamespace.service.thirdparty.data.Storage;
  * case if an EntitySet is requested by the user. Such an example URL would be:
  * http://localhost:8080/ExampleService1/ExampleService1.svc/Products
  */
-public class ProductsEntityCollectionProcessor implements EntityCollectionProcessor {
+public class ProductsEntityCollectionProcessor implements IEntityCollectionProcessor {
 
 	private OData odata;
 	private ServiceMetadata serviceMetadata;
@@ -74,11 +74,6 @@ public class ProductsEntityCollectionProcessor implements EntityCollectionProces
 		// in our example, the first segment is the EntitySet
 		UriResourceEntitySet uriResourceEntitySet = (UriResourceEntitySet) resourcePaths.get(0);
 		EdmEntitySet edmEntitySet = uriResourceEntitySet.getEntitySet();
-		if (!Register3rdPartyThings.ES_PRODUCTS_NAME.equals(edmEntitySet.getName())) {
-			// if resource name is not Products, this processor will not process
-			// the request
-			return;
-		}
 		// 2nd: fetch the data from backend for this requested EntitySetName //
 		// it has to be delivered as EntitySet object
 		EntityCollection entitySet = Storage.instance.getProducts();
@@ -102,5 +97,22 @@ public class ProductsEntityCollectionProcessor implements EntityCollectionProces
 		response.setContent(serializedContent.getContent());
 		response.setStatusCode(HttpStatusCode.OK.getStatusCode());
 		response.setHeader(HttpHeader.CONTENT_TYPE, responseFormat.toContentTypeString());
+	}
+
+	@Override
+	public boolean canHandle(UriInfo uriInfo) {
+		// 1st we have retrieve the requested EntitySet from the uriInfo object
+		// (representation of the parsed service URI)
+		List<UriResource> resourcePaths = uriInfo.getUriResourceParts();
+		// in our example, the first segment is the EntitySet
+		UriResourceEntitySet uriResourceEntitySet = (UriResourceEntitySet) resourcePaths.get(0);
+		EdmEntitySet edmEntitySet = uriResourceEntitySet.getEntitySet();
+		if (Register3rdPartyThings.ES_PRODUCTS_NAME.equals(edmEntitySet.getName())) {
+			// if resource name is not Products, this processor will not process
+			// the request
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

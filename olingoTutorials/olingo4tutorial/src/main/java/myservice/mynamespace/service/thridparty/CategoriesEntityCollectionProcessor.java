@@ -38,7 +38,6 @@ import org.apache.olingo.server.api.ODataApplicationException;
 import org.apache.olingo.server.api.ODataRequest;
 import org.apache.olingo.server.api.ODataResponse;
 import org.apache.olingo.server.api.ServiceMetadata;
-import org.apache.olingo.server.api.processor.EntityCollectionProcessor;
 import org.apache.olingo.server.api.serializer.EntityCollectionSerializerOptions;
 import org.apache.olingo.server.api.serializer.ODataSerializer;
 import org.apache.olingo.server.api.serializer.SerializerException;
@@ -47,13 +46,15 @@ import org.apache.olingo.server.api.uri.UriInfo;
 import org.apache.olingo.server.api.uri.UriResource;
 import org.apache.olingo.server.api.uri.UriResourceEntitySet;
 
+import myservice.mynamespace.service.api.IEntityCollectionProcessor;
+
 /**
  * This class is invoked by the Olingo framework when the the OData service is
  * invoked order to display a list/collection of data (entities). This is the
  * case if an EntitySet is requested by the user. Such an example URL would be:
  * http://localhost:8080/ExampleService1/ExampleService1.svc/Products
  */
-public class CategoriesEntityCollectionProcessor implements EntityCollectionProcessor {
+public class CategoriesEntityCollectionProcessor implements IEntityCollectionProcessor {
 
 	private OData odata;
 	private ServiceMetadata serviceMetadata;
@@ -155,6 +156,23 @@ public class CategoriesEntityCollectionProcessor implements EntityCollectionProc
 			return new URI(entitySetName + "(" + String.valueOf(id) + ")");
 		} catch (URISyntaxException e) {
 			throw new ODataRuntimeException("Unable to create id for entity: " + entitySetName, e);
+		}
+	}
+
+	@Override
+	public boolean canHandle(UriInfo uriInfo) {
+		// 1st we have retrieve the requested EntitySet from the uriInfo object
+		// (representation of the parsed service URI)
+		List<UriResource> resourcePaths = uriInfo.getUriResourceParts();
+		// in our example, the first segment is the EntitySet
+		UriResourceEntitySet uriResourceEntitySet = (UriResourceEntitySet) resourcePaths.get(0);
+		EdmEntitySet edmEntitySet = uriResourceEntitySet.getEntitySet();
+		if (Register3rdPartyThings.ES_CATEGORIES_NAME.equals(edmEntitySet.getName())) {
+			// if resource name is not Products, this processor will not process
+			// the request
+			return true;
+		} else {
+			return false;
 		}
 	}
 }
