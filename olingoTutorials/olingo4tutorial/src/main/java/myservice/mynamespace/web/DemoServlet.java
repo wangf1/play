@@ -35,6 +35,7 @@ import org.slf4j.LoggerFactory;
 
 import myservice.mynamespace.service.DemoEdmProvider;
 import myservice.mynamespace.service.EntityCollectionProcessorChain;
+import myservice.mynamespace.service.EntityProcessorChain;
 import myservice.mynamespace.service.thridparty.Register3rdPartyThings;
 
 /**
@@ -60,6 +61,7 @@ public class DemoServlet extends HttpServlet {
 			ServiceMetadata edm = odata.createServiceMetadata(new DemoEdmProvider(), new ArrayList<EdmxReference>());
 			ODataHttpHandler handler = odata.createHandler(edm);
 			handler.register(new EntityCollectionProcessorChain());
+			handler.register(new EntityProcessorChain());
 
 			// let the handler do the work
 			handler.process(req, resp);

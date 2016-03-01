@@ -39,7 +39,7 @@ import org.apache.olingo.commons.api.edm.provider.CsdlSchema;
 public class DemoEdmProvider extends CsdlAbstractEdmProvider {
 
 	// Service Namespace
-	private static final String NAMESPACE = IOdataProcessorAndProviderRegister.NAMESPACE;
+	private static final String NAMESPACE = IOdataProcessorAndMetadataRegister.NAMESPACE;
 
 	// EDM Container
 	public static final String CONTAINER_NAME = "Container";
@@ -54,7 +54,7 @@ public class DemoEdmProvider extends CsdlAbstractEdmProvider {
 
 		// add EntityTypes
 		List<CsdlEntityType> entityTypes = new ArrayList<CsdlEntityType>();
-		Map<FullQualifiedName, CsdlEntityType> entityMap = ProcessorAndEdmProviderRegister.instance.getEntityTypes();
+		Map<FullQualifiedName, CsdlEntityType> entityMap = OlingoProcessorAndMetadataRegister.instance.getEntityTypes();
 		entityTypes.addAll(entityMap.values());
 		schema.setEntityTypes(entityTypes);
 
@@ -70,7 +70,7 @@ public class DemoEdmProvider extends CsdlAbstractEdmProvider {
 
 	@Override
 	public CsdlEntityType getEntityType(FullQualifiedName entityTypeName) {
-		Map<FullQualifiedName, CsdlEntityType> entityMap = ProcessorAndEdmProviderRegister.instance.getEntityTypes();
+		Map<FullQualifiedName, CsdlEntityType> entityMap = OlingoProcessorAndMetadataRegister.instance.getEntityTypes();
 		CsdlEntityType type = entityMap.get(entityTypeName);
 		return type;
 	}
@@ -78,7 +78,7 @@ public class DemoEdmProvider extends CsdlAbstractEdmProvider {
 	@Override
 	public CsdlEntitySet getEntitySet(FullQualifiedName entityContainer, String entitySetName) {
 		if (entityContainer.equals(CONTAINER)) {
-			Map<String, CsdlEntitySet> entitySets = ProcessorAndEdmProviderRegister.instance.getEntitySets();
+			Map<String, CsdlEntitySet> entitySets = OlingoProcessorAndMetadataRegister.instance.getEntitySets();
 			CsdlEntitySet entitySet = entitySets.get(entitySetName);
 			return entitySet;
 		}
@@ -90,7 +90,7 @@ public class DemoEdmProvider extends CsdlAbstractEdmProvider {
 
 		// create EntitySets
 		List<CsdlEntitySet> entitySets = new ArrayList<CsdlEntitySet>();
-		Map<String, CsdlEntitySet> entitySetMap = ProcessorAndEdmProviderRegister.instance.getEntitySets();
+		Map<String, CsdlEntitySet> entitySetMap = OlingoProcessorAndMetadataRegister.instance.getEntitySets();
 		entitySets.addAll(entitySetMap.values());
 		// create EntityContainer
 		CsdlEntityContainer entityContainer = new CsdlEntityContainer();

@@ -53,7 +53,7 @@ import org.apache.olingo.server.api.uri.UriResourceEntitySet;
  * case if an EntitySet is requested by the user. Such an example URL would be:
  * http://localhost:8080/ExampleService1/ExampleService1.svc/Products
  */
-public class DemoEntityCollectionProcessor implements EntityCollectionProcessor {
+public class CategoriesEntityCollectionProcessor implements EntityCollectionProcessor {
 
 	private OData odata;
 	private ServiceMetadata serviceMetadata;
@@ -75,14 +75,16 @@ public class DemoEntityCollectionProcessor implements EntityCollectionProcessor 
 		// 1st we have retrieve the requested EntitySet from the uriInfo object
 		// (representation of the parsed service URI)
 		List<UriResource> resourcePaths = uriInfo.getUriResourceParts();
-		// in our example, the first segment is the EntitySet
 		UriResourceEntitySet uriResourceEntitySet = (UriResourceEntitySet) resourcePaths.get(0);
 		EdmEntitySet edmEntitySet = uriResourceEntitySet.getEntitySet();
-		if (!Register3rdPartyThings.ES_PRODUCTS_NAME.equals(edmEntitySet.getName())) {
-			// if resource name is not Products, this processor will not process
+
+		if (!Register3rdPartyThings.ES_CATEGORIES_NAME.equals(edmEntitySet.getName())) {
+			// if resource name is not Categories, this processor will not
+			// process
 			// the request
 			return;
 		}
+
 		// 2nd: fetch the data from backend for this requested EntitySetName //
 		// it has to be delivered as EntitySet object
 		EntityCollection entitySet = getData(edmEntitySet);
@@ -123,21 +125,21 @@ public class DemoEntityCollectionProcessor implements EntityCollectionProcessor 
 			List<Entity> productList = productsCollection.getEntities();
 
 			// add some sample product entities
-			final Entity e1 = new Entity().addProperty(new Property(null, "ID", ValueType.PRIMITIVE, 1))
+			final Entity e1 = new Entity().addProperty(new Property(null, "ID", ValueType.PRIMITIVE, 4))
 					.addProperty(new Property(null, "Name", ValueType.PRIMITIVE, "Notebook Basic 15"))
 					.addProperty(new Property(null, "Description", ValueType.PRIMITIVE,
 							"Notebook Basic, 1.7GHz - 15 XGA - 1024MB DDR2 SDRAM - 40GB"));
 			e1.setId(createId("Products", 1));
 			productList.add(e1);
 
-			final Entity e2 = new Entity().addProperty(new Property(null, "ID", ValueType.PRIMITIVE, 2))
+			final Entity e2 = new Entity().addProperty(new Property(null, "ID", ValueType.PRIMITIVE, 5))
 					.addProperty(new Property(null, "Name", ValueType.PRIMITIVE, "1UMTS PDA"))
 					.addProperty(new Property(null, "Description", ValueType.PRIMITIVE,
 							"Ultrafast 3G UMTS/HSDPA Pocket PC, supports GSM network"));
 			e2.setId(createId("Products", 1));
 			productList.add(e2);
 
-			final Entity e3 = new Entity().addProperty(new Property(null, "ID", ValueType.PRIMITIVE, 3))
+			final Entity e3 = new Entity().addProperty(new Property(null, "ID", ValueType.PRIMITIVE, 6))
 					.addProperty(new Property(null, "Name", ValueType.PRIMITIVE, "Ergo Screen"))
 					.addProperty(new Property(null, "Description", ValueType.PRIMITIVE,
 							"19 Optimum Resolution 1024 x 768 @ 85Hz, resolution 1280 x 960"));

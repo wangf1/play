@@ -31,7 +31,8 @@ public class EntityCollectionProcessorChain implements EntityCollectionProcessor
 
 	@Override
 	public void init(OData odata, ServiceMetadata serviceMetadata) {
-		List<EntityCollectionProcessor> processors = ProcessorAndEdmProviderRegister.instance.getProcessors();
+		List<EntityCollectionProcessor> processors = OlingoProcessorAndMetadataRegister.instance
+				.getEntityCollectionProcessors();
 		for (EntityCollectionProcessor processor : processors) {
 			processor.init(odata, serviceMetadata);
 		}
@@ -40,8 +41,8 @@ public class EntityCollectionProcessorChain implements EntityCollectionProcessor
 	@Override
 	public void readEntityCollection(ODataRequest request, ODataResponse response, UriInfo uriInfo,
 			ContentType responseFormat) throws ODataApplicationException, ODataLibraryException {
-
-		List<EntityCollectionProcessor> processors = ProcessorAndEdmProviderRegister.instance.getProcessors();
+		List<EntityCollectionProcessor> processors = OlingoProcessorAndMetadataRegister.instance
+				.getEntityCollectionProcessors();
 		for (EntityCollectionProcessor processor : processors) {
 			processor.readEntityCollection(request, response, uriInfo, responseFormat);
 		}

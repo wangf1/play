@@ -18,18 +18,12 @@
  */
 package myservice.mynamespace.service.thridparty;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
 import org.apache.olingo.commons.api.data.ContextURL;
-import org.apache.olingo.commons.api.data.Entity;
 import org.apache.olingo.commons.api.data.EntityCollection;
-import org.apache.olingo.commons.api.data.Property;
-import org.apache.olingo.commons.api.data.ValueType;
 import org.apache.olingo.commons.api.edm.EdmEntitySet;
 import org.apache.olingo.commons.api.edm.EdmEntityType;
-import org.apache.olingo.commons.api.ex.ODataRuntimeException;
 import org.apache.olingo.commons.api.format.ContentType;
 import org.apache.olingo.commons.api.http.HttpHeader;
 import org.apache.olingo.commons.api.http.HttpStatusCode;
@@ -47,13 +41,15 @@ import org.apache.olingo.server.api.uri.UriInfo;
 import org.apache.olingo.server.api.uri.UriResource;
 import org.apache.olingo.server.api.uri.UriResourceEntitySet;
 
+import myservice.mynamespace.service.thirdparty.data.Storage;
+
 /**
  * This class is invoked by the Olingo framework when the the OData service is
  * invoked order to display a list/collection of data (entities). This is the
  * case if an EntitySet is requested by the user. Such an example URL would be:
  * http://localhost:8080/ExampleService1/ExampleService1.svc/Products
  */
-public class EntityCollectionProcessor3rdParty implements EntityCollectionProcessor {
+public class ProductsEntityCollectionProcessor implements EntityCollectionProcessor {
 
 	private OData odata;
 	private ServiceMetadata serviceMetadata;
@@ -75,19 +71,17 @@ public class EntityCollectionProcessor3rdParty implements EntityCollectionProces
 		// 1st we have retrieve the requested EntitySet from the uriInfo object
 		// (representation of the parsed service URI)
 		List<UriResource> resourcePaths = uriInfo.getUriResourceParts();
+		// in our example, the first segment is the EntitySet
 		UriResourceEntitySet uriResourceEntitySet = (UriResourceEntitySet) resourcePaths.get(0);
 		EdmEntitySet edmEntitySet = uriResourceEntitySet.getEntitySet();
-
-		if (!Register3rdPartyThings.ES_CATEGORIES_NAME.equals(edmEntitySet.getName())) {
-			// if resource name is not Categories, this processor will not
-			// process
+		if (!Register3rdPartyThings.ES_PRODUCTS_NAME.equals(edmEntitySet.getName())) {
+			// if resource name is not Products, this processor will not process
 			// the request
 			return;
 		}
-
 		// 2nd: fetch the data from backend for this requested EntitySetName //
 		// it has to be delivered as EntitySet object
-		EntityCollection entitySet = getData(edmEntitySet);
+		EntityCollection entitySet = Storage.instance.getProducts();
 
 		// 3rd: create a serializer based on the requested format (json)
 		ODataSerializer serializer = odata.createSerializer(responseFormat);
@@ -108,53 +102,5 @@ public class EntityCollectionProcessor3rdParty implements EntityCollectionProces
 		response.setContent(serializedContent.getContent());
 		response.setStatusCode(HttpStatusCode.OK.getStatusCode());
 		response.setHeader(HttpHeader.CONTENT_TYPE, responseFormat.toContentTypeString());
-	}
-
-	/**
-	 * Helper method for providing some sample data
-	 * 
-	 * @param edmEntitySet
-	 *            for which the data is requested
-	 * @return data of requested entity set
-	 */
-	private EntityCollection getData(EdmEntitySet edmEntitySet) {
-
-		EntityCollection productsCollection = new EntityCollection();
-		// check for which EdmEntitySet the data is requested
-		if (Register3rdPartyThings.ES_PRODUCTS_NAME.equals(edmEntitySet.getName())) {
-			List<Entity> productList = productsCollection.getEntities();
-
-			// add some sample product entities
-			final Entity e1 = new Entity().addProperty(new Property(null, "ID", ValueType.PRIMITIVE, 4))
-					.addProperty(new Property(null, "Name", ValueType.PRIMITIVE, "Notebook Basic 15"))
-					.addProperty(new Property(null, "Description", ValueType.PRIMITIVE,
-							"Notebook Basic, 1.7GHz - 15 XGA - 1024MB DDR2 SDRAM - 40GB"));
-			e1.setId(createId("Products", 1));
-			productList.add(e1);
-
-			final Entity e2 = new Entity().addProperty(new Property(null, "ID", ValueType.PRIMITIVE, 5))
-					.addProperty(new Property(null, "Name", ValueType.PRIMITIVE, "1UMTS PDA"))
-					.addProperty(new Property(null, "Description", ValueType.PRIMITIVE,
-							"Ultrafast 3G UMTS/HSDPA Pocket PC, supports GSM network"));
-			e2.setId(createId("Products", 1));
-			productList.add(e2);
-
-			final Entity e3 = new Entity().addProperty(new Property(null, "ID", ValueType.PRIMITIVE, 6))
-					.addProperty(new Property(null, "Name", ValueType.PRIMITIVE, "Ergo Screen"))
-					.addProperty(new Property(null, "Description", ValueType.PRIMITIVE,
-							"19 Optimum Resolution 1024 x 768 @ 85Hz, resolution 1280 x 960"));
-			e3.setId(createId("Products", 1));
-			productList.add(e3);
-		}
-
-		return productsCollection;
-	}
-
-	private URI createId(String entitySetName, Object id) {
-		try {
-			return new URI(entitySetName + "(" + String.valueOf(id) + ")");
-		} catch (URISyntaxException e) {
-			throw new ODataRuntimeException("Unable to create id for entity: " + entitySetName, e);
-		}
 	}
 }

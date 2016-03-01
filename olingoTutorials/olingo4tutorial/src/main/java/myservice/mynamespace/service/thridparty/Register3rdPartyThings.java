@@ -14,17 +14,17 @@ import org.apache.olingo.commons.api.edm.provider.CsdlNavigationPropertyBinding;
 import org.apache.olingo.commons.api.edm.provider.CsdlProperty;
 import org.apache.olingo.commons.api.edm.provider.CsdlPropertyRef;
 
-import myservice.mynamespace.service.IOdataProcessorAndProviderRegister;
-import myservice.mynamespace.service.ProcessorAndEdmProviderRegister;
+import myservice.mynamespace.service.IOdataProcessorAndMetadataRegister;
+import myservice.mynamespace.service.OlingoProcessorAndMetadataRegister;
 
 public class Register3rdPartyThings {
 	// Entity Types Names
 	private static final String ET_PRODUCT_NAME = "Product";
 	private static final FullQualifiedName ET_PRODUCT_FQN = new FullQualifiedName(
-			IOdataProcessorAndProviderRegister.NAMESPACE, ET_PRODUCT_NAME);
+			IOdataProcessorAndMetadataRegister.NAMESPACE, ET_PRODUCT_NAME);
 	private static final String ET_CATEGORY_NAME = "Category";
 	private static final FullQualifiedName ET_CATEGORY_FQN = new FullQualifiedName(
-			IOdataProcessorAndProviderRegister.NAMESPACE, ET_CATEGORY_NAME);
+			IOdataProcessorAndMetadataRegister.NAMESPACE, ET_CATEGORY_NAME);
 
 	// Entity Set Names
 	static final String ES_PRODUCTS_NAME = "Products";
@@ -33,13 +33,15 @@ public class Register3rdPartyThings {
 
 	public void registerAll3rdPartyThings() {
 		// Mimic 3rd party code register Processors
-		ProcessorAndEdmProviderRegister.instance
-				.registerEntityCollectionProcessor(new EntityCollectionProcessor3rdParty());
-		ProcessorAndEdmProviderRegister.instance.registerEntityCollectionProcessor(new DemoEntityCollectionProcessor());
-		ProcessorAndEdmProviderRegister.instance.registerEntityType(createProductEntityType());
-		ProcessorAndEdmProviderRegister.instance.registerEntityType(createCategoryEntityType());
-		ProcessorAndEdmProviderRegister.instance.registerEntitySet(createProductsEntitySet());
-		ProcessorAndEdmProviderRegister.instance.registerEntitySet(createCategoriesEntitySet());
+		OlingoProcessorAndMetadataRegister.instance
+				.registerEntityCollectionProcessor(new CategoriesEntityCollectionProcessor());
+		OlingoProcessorAndMetadataRegister.instance
+				.registerEntityCollectionProcessor(new ProductsEntityCollectionProcessor());
+		OlingoProcessorAndMetadataRegister.instance.registerEntityProcessor(new ProductEntityProcessor());
+		OlingoProcessorAndMetadataRegister.instance.registerEntityType(createProductEntityType());
+		OlingoProcessorAndMetadataRegister.instance.registerEntityType(createCategoryEntityType());
+		OlingoProcessorAndMetadataRegister.instance.registerEntitySet(createProductsEntitySet());
+		OlingoProcessorAndMetadataRegister.instance.registerEntitySet(createCategoriesEntitySet());
 
 	}
 

@@ -9,20 +9,22 @@ import org.apache.olingo.commons.api.edm.FullQualifiedName;
 import org.apache.olingo.commons.api.edm.provider.CsdlEntitySet;
 import org.apache.olingo.commons.api.edm.provider.CsdlEntityType;
 import org.apache.olingo.server.api.processor.EntityCollectionProcessor;
+import org.apache.olingo.server.api.processor.EntityProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ProcessorAndEdmProviderRegister implements IOdataProcessorAndProviderRegister {
+public class OlingoProcessorAndMetadataRegister implements IOdataProcessorAndMetadataRegister {
 
-	public static ProcessorAndEdmProviderRegister instance = new ProcessorAndEdmProviderRegister();
+	public static OlingoProcessorAndMetadataRegister instance = new OlingoProcessorAndMetadataRegister();
 
 	private Logger LOG = LoggerFactory.getLogger(getClass());
 
-	private List<EntityCollectionProcessor> processors = new LinkedList<>();
+	private List<EntityCollectionProcessor> entityCollectionProcessors = new LinkedList<>();
+	private List<EntityProcessor> entityProcessors = new LinkedList<>();
 	private Map<FullQualifiedName, CsdlEntityType> entityTypes = new HashMap<>();
 	private Map<String, CsdlEntitySet> entitySets = new HashMap<>();
 
-	private ProcessorAndEdmProviderRegister() {
+	private OlingoProcessorAndMetadataRegister() {
 	}
 
 	@Override
@@ -31,7 +33,12 @@ public class ProcessorAndEdmProviderRegister implements IOdataProcessorAndProvid
 			LOG.warn("Should not register null Olingo Processor");
 			return;
 		}
-		processors.add(processor);
+		entityCollectionProcessors.add(processor);
+	}
+
+	@Override
+	public void registerEntityProcessor(EntityProcessor processor) {
+		entityProcessors.add(processor);
 	}
 
 	@Override
@@ -46,8 +53,8 @@ public class ProcessorAndEdmProviderRegister implements IOdataProcessorAndProvid
 		entitySets.put(entitySet.getName(), entitySet);
 	}
 
-	List<EntityCollectionProcessor> getProcessors() {
-		return processors;
+	List<EntityCollectionProcessor> getEntityCollectionProcessors() {
+		return entityCollectionProcessors;
 	}
 
 	Map<FullQualifiedName, CsdlEntityType> getEntityTypes() {
@@ -56,6 +63,10 @@ public class ProcessorAndEdmProviderRegister implements IOdataProcessorAndProvid
 
 	Map<String, CsdlEntitySet> getEntitySets() {
 		return entitySets;
+	}
+
+	List<EntityProcessor> getEntityProcessors() {
+		return entityProcessors;
 	}
 
 }
