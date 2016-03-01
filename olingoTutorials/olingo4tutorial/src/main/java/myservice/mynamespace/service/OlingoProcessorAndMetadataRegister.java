@@ -10,6 +10,7 @@ import org.apache.olingo.commons.api.edm.provider.CsdlEntitySet;
 import org.apache.olingo.commons.api.edm.provider.CsdlEntityType;
 import org.apache.olingo.server.api.processor.EntityCollectionProcessor;
 import org.apache.olingo.server.api.processor.EntityProcessor;
+import org.apache.olingo.server.api.processor.PrimitiveProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +22,7 @@ public class OlingoProcessorAndMetadataRegister implements IOdataProcessorAndMet
 
 	private List<EntityCollectionProcessor> entityCollectionProcessors = new LinkedList<>();
 	private List<EntityProcessor> entityProcessors = new LinkedList<>();
+	private List<PrimitiveProcessor> primitiveProcessors = new LinkedList<>();
 	private Map<FullQualifiedName, CsdlEntityType> entityTypes = new HashMap<>();
 	private Map<String, CsdlEntitySet> entitySets = new HashMap<>();
 
@@ -39,6 +41,11 @@ public class OlingoProcessorAndMetadataRegister implements IOdataProcessorAndMet
 	@Override
 	public void registerEntityProcessor(EntityProcessor processor) {
 		entityProcessors.add(processor);
+	}
+
+	@Override
+	public void registerPrimitiveProcessor(PrimitiveProcessor processor) {
+		primitiveProcessors.add(processor);
 	}
 
 	@Override
@@ -67,6 +74,10 @@ public class OlingoProcessorAndMetadataRegister implements IOdataProcessorAndMet
 
 	List<EntityProcessor> getEntityProcessors() {
 		return entityProcessors;
+	}
+
+	List<PrimitiveProcessor> getPrimitiveProcessors() {
+		return primitiveProcessors;
 	}
 
 }

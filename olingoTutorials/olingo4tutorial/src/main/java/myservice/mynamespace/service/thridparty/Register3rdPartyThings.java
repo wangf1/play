@@ -18,6 +18,8 @@ import myservice.mynamespace.service.IOdataProcessorAndMetadataRegister;
 import myservice.mynamespace.service.OlingoProcessorAndMetadataRegister;
 
 public class Register3rdPartyThings {
+
+	public static Register3rdPartyThings instance = new Register3rdPartyThings();
 	// Entity Types Names
 	private static final String ET_PRODUCT_NAME = "Product";
 	private static final FullQualifiedName ET_PRODUCT_FQN = new FullQualifiedName(
@@ -31,18 +33,33 @@ public class Register3rdPartyThings {
 	static final String ES_CATEGORIES_NAME = "Categories";
 	static final String NAV_TO_PRODUCTS = "Products";
 
-	public void registerAll3rdPartyThings() {
-		// Mimic 3rd party code register Processors
-		OlingoProcessorAndMetadataRegister.instance
-				.registerEntityCollectionProcessor(new CategoriesEntityCollectionProcessor());
-		OlingoProcessorAndMetadataRegister.instance
-				.registerEntityCollectionProcessor(new ProductsEntityCollectionProcessor());
-		OlingoProcessorAndMetadataRegister.instance.registerEntityProcessor(new ProductEntityProcessor());
-		OlingoProcessorAndMetadataRegister.instance.registerEntityType(createProductEntityType());
-		OlingoProcessorAndMetadataRegister.instance.registerEntityType(createCategoryEntityType());
-		OlingoProcessorAndMetadataRegister.instance.registerEntitySet(createProductsEntitySet());
-		OlingoProcessorAndMetadataRegister.instance.registerEntitySet(createCategoriesEntitySet());
+	private boolean registered = false;
 
+	private Register3rdPartyThings() {
+	}
+
+	public void registerAll3rdPartyThings() {
+		if (registered) {
+			// only register once!
+			return;
+		}
+		synchronized (this) {
+			if (registered) {
+				return;
+			}
+			// Mimic 3rd party code register Processors
+			OlingoProcessorAndMetadataRegister.instance
+					.registerEntityCollectionProcessor(new CategoriesEntityCollectionProcessor());
+			OlingoProcessorAndMetadataRegister.instance
+					.registerEntityCollectionProcessor(new ProductsEntityCollectionProcessor());
+			OlingoProcessorAndMetadataRegister.instance.registerEntityProcessor(new ProductEntityProcessor());
+			OlingoProcessorAndMetadataRegister.instance.registerPrimitiveProcessor(new ProductPrimitiveProcessor());
+			OlingoProcessorAndMetadataRegister.instance.registerEntityType(createProductEntityType());
+			OlingoProcessorAndMetadataRegister.instance.registerEntityType(createCategoryEntityType());
+			OlingoProcessorAndMetadataRegister.instance.registerEntitySet(createProductsEntitySet());
+			OlingoProcessorAndMetadataRegister.instance.registerEntitySet(createCategoriesEntitySet());
+			registered = true;
+		}
 	}
 
 	private CsdlEntitySet createCategoriesEntitySet() {

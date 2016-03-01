@@ -36,6 +36,7 @@ import org.slf4j.LoggerFactory;
 import myservice.mynamespace.service.DemoEdmProvider;
 import myservice.mynamespace.service.EntityCollectionProcessorChain;
 import myservice.mynamespace.service.EntityProcessorChain;
+import myservice.mynamespace.service.PrimitiveProcessorChain;
 import myservice.mynamespace.service.thridparty.Register3rdPartyThings;
 
 /**
@@ -54,7 +55,7 @@ public class DemoServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		try {
-			new Register3rdPartyThings().registerAll3rdPartyThings();
+			Register3rdPartyThings.instance.registerAll3rdPartyThings();
 			// create odata handler and configure it with EdmProvider and
 			// Processor
 			OData odata = OData.newInstance();
@@ -62,6 +63,7 @@ public class DemoServlet extends HttpServlet {
 			ODataHttpHandler handler = odata.createHandler(edm);
 			handler.register(new EntityCollectionProcessorChain());
 			handler.register(new EntityProcessorChain());
+			handler.register(new PrimitiveProcessorChain());
 
 			// let the handler do the work
 			handler.process(req, resp);

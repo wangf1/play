@@ -4,6 +4,7 @@ import org.apache.olingo.commons.api.edm.provider.CsdlEntitySet;
 import org.apache.olingo.commons.api.edm.provider.CsdlEntityType;
 import org.apache.olingo.server.api.processor.EntityCollectionProcessor;
 import org.apache.olingo.server.api.processor.EntityProcessor;
+import org.apache.olingo.server.api.processor.PrimitiveProcessor;
 
 /**
  * Suppose I will expose this interface as a OSGi service.
@@ -18,6 +19,8 @@ public interface IOdataProcessorAndMetadataRegister {
 	void registerEntityCollectionProcessor(EntityCollectionProcessor processor);
 
 	void registerEntityProcessor(EntityProcessor processor);
+
+	void registerPrimitiveProcessor(PrimitiveProcessor processor);
 
 	void registerEntityType(CsdlEntityType entityType);
 
