@@ -47,8 +47,6 @@ import org.apache.olingo.server.api.uri.UriInfo;
 import org.apache.olingo.server.api.uri.UriResource;
 import org.apache.olingo.server.api.uri.UriResourceEntitySet;
 
-import myservice.mynamespace.service.DemoEdmProvider;
-
 /**
  * This class is invoked by the Olingo framework when the the OData service is
  * invoked order to display a list/collection of data (entities). This is the
@@ -80,7 +78,7 @@ public class EntityCollectionProcessor3rdParty implements EntityCollectionProces
 		UriResourceEntitySet uriResourceEntitySet = (UriResourceEntitySet) resourcePaths.get(0);
 		EdmEntitySet edmEntitySet = uriResourceEntitySet.getEntitySet();
 
-		if (!DemoEdmProvider.ES_CATEGORIES_NAME.equals(edmEntitySet.getName())) {
+		if (!Register3rdPartyThings.ES_CATEGORIES_NAME.equals(edmEntitySet.getName())) {
 			// if resource name is not Categories, this processor will not
 			// process
 			// the request
@@ -123,7 +121,7 @@ public class EntityCollectionProcessor3rdParty implements EntityCollectionProces
 
 		EntityCollection productsCollection = new EntityCollection();
 		// check for which EdmEntitySet the data is requested
-		if (DemoEdmProvider.ES_PRODUCTS_NAME.equals(edmEntitySet.getName())) {
+		if (Register3rdPartyThings.ES_PRODUCTS_NAME.equals(edmEntitySet.getName())) {
 			List<Entity> productList = productsCollection.getEntities();
 
 			// add some sample product entities

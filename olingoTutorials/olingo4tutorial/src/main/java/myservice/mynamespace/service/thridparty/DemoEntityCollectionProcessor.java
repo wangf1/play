@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package myservice.mynamespace.service;
+package myservice.mynamespace.service.thridparty;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -78,7 +78,7 @@ public class DemoEntityCollectionProcessor implements EntityCollectionProcessor 
 		// in our example, the first segment is the EntitySet
 		UriResourceEntitySet uriResourceEntitySet = (UriResourceEntitySet) resourcePaths.get(0);
 		EdmEntitySet edmEntitySet = uriResourceEntitySet.getEntitySet();
-		if (!DemoEdmProvider.ES_PRODUCTS_NAME.equals(edmEntitySet.getName())) {
+		if (!Register3rdPartyThings.ES_PRODUCTS_NAME.equals(edmEntitySet.getName())) {
 			// if resource name is not Products, this processor will not process
 			// the request
 			return;
@@ -119,7 +119,7 @@ public class DemoEntityCollectionProcessor implements EntityCollectionProcessor 
 
 		EntityCollection productsCollection = new EntityCollection();
 		// check for which EdmEntitySet the data is requested
-		if (DemoEdmProvider.ES_PRODUCTS_NAME.equals(edmEntitySet.getName())) {
+		if (Register3rdPartyThings.ES_PRODUCTS_NAME.equals(edmEntitySet.getName())) {
 			List<Entity> productList = productsCollection.getEntities();
 
 			// add some sample product entities

@@ -34,10 +34,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import myservice.mynamespace.service.DemoEdmProvider;
-import myservice.mynamespace.service.DemoEntityCollectionProcessor;
 import myservice.mynamespace.service.EntityCollectionProcessorChain;
-import myservice.mynamespace.service.ProcessorAndEdmProviderRegister;
-import myservice.mynamespace.service.thridparty.EntityCollectionProcessor3rdParty;
+import myservice.mynamespace.service.thridparty.Register3rdPartyThings;
 
 /**
  * This class represents a standard HttpServlet implementation. It is used as
@@ -55,11 +53,7 @@ public class DemoServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		try {
-			// Mimic 3rd party code register Processors
-			ProcessorAndEdmProviderRegister.instance
-					.registerEntityCollectionProcessor(new EntityCollectionProcessor3rdParty());
-			ProcessorAndEdmProviderRegister.instance
-					.registerEntityCollectionProcessor(new DemoEntityCollectionProcessor());
+			new Register3rdPartyThings().registerAll3rdPartyThings();
 			// create odata handler and configure it with EdmProvider and
 			// Processor
 			OData odata = OData.newInstance();

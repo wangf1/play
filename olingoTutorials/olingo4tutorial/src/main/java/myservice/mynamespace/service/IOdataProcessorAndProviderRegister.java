@@ -1,5 +1,7 @@
 package myservice.mynamespace.service;
 
+import org.apache.olingo.commons.api.edm.provider.CsdlEntitySet;
+import org.apache.olingo.commons.api.edm.provider.CsdlEntityType;
 import org.apache.olingo.server.api.processor.EntityCollectionProcessor;
 
 /**
@@ -9,5 +11,12 @@ import org.apache.olingo.server.api.processor.EntityCollectionProcessor;
  *
  */
 public interface IOdataProcessorAndProviderRegister {
+	// Service Namespace
+	public static final String NAMESPACE = "OData.Demo";
+
 	void registerEntityCollectionProcessor(EntityCollectionProcessor processor);
+
+	void registerEntityType(CsdlEntityType entityType);
+
+	void registerEntitySet(CsdlEntitySet entitySet);
 }
