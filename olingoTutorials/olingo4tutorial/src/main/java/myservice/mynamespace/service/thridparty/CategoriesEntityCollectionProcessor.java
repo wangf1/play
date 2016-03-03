@@ -79,13 +79,6 @@ public class CategoriesEntityCollectionProcessor implements IEntityCollectionPro
 		UriResourceEntitySet uriResourceEntitySet = (UriResourceEntitySet) resourcePaths.get(0);
 		EdmEntitySet edmEntitySet = uriResourceEntitySet.getEntitySet();
 
-		if (!Register3rdPartyThings.ES_CATEGORIES_NAME.equals(edmEntitySet.getName())) {
-			// if resource name is not Categories, this processor will not
-			// process
-			// the request
-			return;
-		}
-
 		// 2nd: fetch the data from backend for this requested EntitySetName //
 		// it has to be delivered as EntitySet object
 		EntityCollection entitySet = getData(edmEntitySet);

@@ -1,7 +1,5 @@
 package myservice.mynamespace.service;
 
-import java.util.List;
-
 import org.apache.olingo.commons.api.format.ContentType;
 import org.apache.olingo.server.api.OData;
 import org.apache.olingo.server.api.ODataApplicationException;
@@ -12,12 +10,13 @@ import org.apache.olingo.server.api.ServiceMetadata;
 import org.apache.olingo.server.api.processor.PrimitiveProcessor;
 import org.apache.olingo.server.api.uri.UriInfo;
 
+import myservice.mynamespace.service.util.Util;
+
 public class PrimitiveProcessorChain implements PrimitiveProcessor {
 
 	@Override
 	public void init(OData odata, ServiceMetadata serviceMetadata) {
-		List<PrimitiveProcessor> processors = OlingoProcessorAndMetadataRegister.instance.getPrimitiveProcessors();
-		for (PrimitiveProcessor processor : processors) {
+		for (PrimitiveProcessor processor : OlingoProcessorAndMetadataRegister.instance.getPrimitiveProcessors()) {
 			processor.init(odata, serviceMetadata);
 		}
 	}
@@ -25,29 +24,26 @@ public class PrimitiveProcessorChain implements PrimitiveProcessor {
 	@Override
 	public void readPrimitive(ODataRequest request, ODataResponse response, UriInfo uriInfo, ContentType responseFormat)
 			throws ODataApplicationException, ODataLibraryException {
-		List<PrimitiveProcessor> processors = OlingoProcessorAndMetadataRegister.instance.getPrimitiveProcessors();
-		for (PrimitiveProcessor processor : processors) {
-			processor.readPrimitive(request, response, uriInfo, responseFormat);
-		}
+		PrimitiveProcessor processor = (PrimitiveProcessor) Util
+				.selectProcessor(OlingoProcessorAndMetadataRegister.instance.getPrimitiveProcessors(), uriInfo);
+		processor.readPrimitive(request, response, uriInfo, responseFormat);
 	}
 
 	@Override
 	public void updatePrimitive(ODataRequest request, ODataResponse response, UriInfo uriInfo,
 			ContentType requestFormat, ContentType responseFormat)
 					throws ODataApplicationException, ODataLibraryException {
-		List<PrimitiveProcessor> processors = OlingoProcessorAndMetadataRegister.instance.getPrimitiveProcessors();
-		for (PrimitiveProcessor processor : processors) {
-			processor.updatePrimitive(request, response, uriInfo, requestFormat, responseFormat);
-		}
+		PrimitiveProcessor processor = (PrimitiveProcessor) Util
+				.selectProcessor(OlingoProcessorAndMetadataRegister.instance.getPrimitiveProcessors(), uriInfo);
+		processor.updatePrimitive(request, response, uriInfo, requestFormat, responseFormat);
 	}
 
 	@Override
 	public void deletePrimitive(ODataRequest request, ODataResponse response, UriInfo uriInfo)
 			throws ODataApplicationException, ODataLibraryException {
-		List<PrimitiveProcessor> processors = OlingoProcessorAndMetadataRegister.instance.getPrimitiveProcessors();
-		for (PrimitiveProcessor processor : processors) {
-			processor.deletePrimitive(request, response, uriInfo);
-		}
+		PrimitiveProcessor processor = (PrimitiveProcessor) Util
+				.selectProcessor(OlingoProcessorAndMetadataRegister.instance.getPrimitiveProcessors(), uriInfo);
+		processor.deletePrimitive(request, response, uriInfo);
 	}
 
 }

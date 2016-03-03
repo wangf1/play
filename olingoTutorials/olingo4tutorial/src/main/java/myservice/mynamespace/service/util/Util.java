@@ -30,7 +30,10 @@ import org.apache.olingo.commons.api.edm.EdmProperty;
 import org.apache.olingo.commons.api.edm.EdmType;
 import org.apache.olingo.commons.api.http.HttpStatusCode;
 import org.apache.olingo.server.api.ODataApplicationException;
+import org.apache.olingo.server.api.uri.UriInfo;
 import org.apache.olingo.server.api.uri.UriParameter;
+
+import myservice.mynamespace.service.api.ICanHandleODataUri;
 
 public class Util {
 
@@ -100,5 +103,14 @@ public class Util {
 		}
 
 		return true;
+	}
+
+	public static ICanHandleODataUri selectProcessor(List<? extends ICanHandleODataUri> processors, UriInfo uriInfo) {
+		for (ICanHandleODataUri processor : processors) {
+			if (processor.canHandle(uriInfo)) {
+				return processor;
+			}
+		}
+		return null;
 	}
 }

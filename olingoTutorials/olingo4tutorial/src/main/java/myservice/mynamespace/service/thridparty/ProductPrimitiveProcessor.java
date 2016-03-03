@@ -37,7 +37,6 @@ import org.apache.olingo.server.api.ODataRequest;
 import org.apache.olingo.server.api.ODataResponse;
 import org.apache.olingo.server.api.ServiceMetadata;
 import org.apache.olingo.server.api.deserializer.DeserializerException;
-import org.apache.olingo.server.api.processor.PrimitiveProcessor;
 import org.apache.olingo.server.api.serializer.ODataSerializer;
 import org.apache.olingo.server.api.serializer.PrimitiveSerializerOptions;
 import org.apache.olingo.server.api.serializer.SerializerException;
@@ -48,9 +47,10 @@ import org.apache.olingo.server.api.uri.UriResource;
 import org.apache.olingo.server.api.uri.UriResourceEntitySet;
 import org.apache.olingo.server.api.uri.UriResourceProperty;
 
+import myservice.mynamespace.service.api.IPrimitiveProcessor;
 import myservice.mynamespace.service.thirdparty.data.Storage;
 
-public class ProductPrimitiveProcessor implements PrimitiveProcessor {
+public class ProductPrimitiveProcessor implements IPrimitiveProcessor {
 
 	private OData odata;
 	private ServiceMetadata serviceMetadata;
@@ -77,11 +77,6 @@ public class ProductPrimitiveProcessor implements PrimitiveProcessor {
 		// EntitySet
 		UriResourceEntitySet uriEntityset = (UriResourceEntitySet) resourceParts.get(0);
 		EdmEntitySet edmEntitySet = uriEntityset.getEntitySet();
-		if (!Register3rdPartyThings.ES_PRODUCTS_NAME.equals(edmEntitySet.getName())) {
-			// if resource name is not Products, this processor will not process
-			// the request
-			return;
-		}
 		// the key for the entity
 		List<UriParameter> keyPredicates = uriEntityset.getKeyPredicates();
 
@@ -152,5 +147,11 @@ public class ProductPrimitiveProcessor implements PrimitiveProcessor {
 			throws ODataApplicationException {
 		throw new ODataApplicationException("Not supported.", HttpStatusCode.NOT_IMPLEMENTED.getStatusCode(),
 				Locale.ROOT);
+	}
+
+	@Override
+	public boolean canHandle(UriInfo uriInfo) {
+		boolean canHandle = ProductEntityUtil.isProductsUri(uriInfo);
+		return canHandle;
 	}
 }

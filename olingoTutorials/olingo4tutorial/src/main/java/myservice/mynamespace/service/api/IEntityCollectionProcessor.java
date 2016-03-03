@@ -10,6 +10,5 @@ import org.apache.olingo.server.api.uri.UriInfo;
  * @author wangf
  *
  */
-public interface IEntityCollectionProcessor extends EntityCollectionProcessor {
-	boolean canHandle(UriInfo uriInfo);
+public interface IEntityCollectionProcessor extends EntityCollectionProcessor, ICanHandleODataUri {
 }

@@ -1,7 +1,5 @@
 package myservice.mynamespace.service;
 
-import java.util.List;
-
 import org.apache.olingo.commons.api.format.ContentType;
 import org.apache.olingo.server.api.OData;
 import org.apache.olingo.server.api.ODataApplicationException;
@@ -13,7 +11,7 @@ import org.apache.olingo.server.api.processor.EntityCollectionProcessor;
 import org.apache.olingo.server.api.processor.Processor;
 import org.apache.olingo.server.api.uri.UriInfo;
 
-import myservice.mynamespace.service.api.IEntityCollectionProcessor;
+import myservice.mynamespace.service.util.Util;
 
 /**
  * This class use a simplified responsibility chain pattern, in order to make
@@ -33,9 +31,8 @@ public class EntityCollectionProcessorChain implements EntityCollectionProcessor
 
 	@Override
 	public void init(OData odata, ServiceMetadata serviceMetadata) {
-		List<IEntityCollectionProcessor> processors = OlingoProcessorAndMetadataRegister.instance
-				.getEntityCollectionProcessors();
-		for (IEntityCollectionProcessor processor : processors) {
+		for (EntityCollectionProcessor processor : OlingoProcessorAndMetadataRegister.instance
+				.getEntityCollectionProcessors()) {
 			processor.init(odata, serviceMetadata);
 		}
 	}
@@ -43,18 +40,9 @@ public class EntityCollectionProcessorChain implements EntityCollectionProcessor
 	@Override
 	public void readEntityCollection(ODataRequest request, ODataResponse response, UriInfo uriInfo,
 			ContentType responseFormat) throws ODataApplicationException, ODataLibraryException {
-		IEntityCollectionProcessor processor = selectProcessor(uriInfo);
+		EntityCollectionProcessor processor = (EntityCollectionProcessor) Util
+				.selectProcessor(OlingoProcessorAndMetadataRegister.instance.getEntityCollectionProcessors(), uriInfo);
 		processor.readEntityCollection(request, response, uriInfo, responseFormat);
 	}
 
-	private IEntityCollectionProcessor selectProcessor(UriInfo uriInfo) {
-		List<IEntityCollectionProcessor> processors = OlingoProcessorAndMetadataRegister.instance
-				.getEntityCollectionProcessors();
-		for (IEntityCollectionProcessor processor : processors) {
-			if (processor.canHandle(uriInfo)) {
-				return processor;
-			}
-		}
-		return null;
-	}
 }
