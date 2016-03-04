@@ -23,8 +23,10 @@ import java.util.Locale;
 
 import org.apache.olingo.commons.api.data.Entity;
 import org.apache.olingo.commons.api.data.EntityCollection;
+import org.apache.olingo.commons.api.edm.EdmBindingTarget;
 import org.apache.olingo.commons.api.edm.EdmEntitySet;
 import org.apache.olingo.commons.api.edm.EdmEntityType;
+import org.apache.olingo.commons.api.edm.EdmNavigationProperty;
 import org.apache.olingo.commons.api.edm.EdmPrimitiveType;
 import org.apache.olingo.commons.api.edm.EdmPrimitiveTypeException;
 import org.apache.olingo.commons.api.edm.EdmProperty;
@@ -131,5 +133,23 @@ public class Util {
 			}
 		}
 		return null;
+	}
+
+	public static EdmEntitySet getNavigationTargetEntitySet(EdmEntitySet startEdmEntitySet,
+			EdmNavigationProperty edmNavigationProperty) throws ODataApplicationException {
+		EdmEntitySet navigationTargetEntitySet = null;
+		String navPropName = edmNavigationProperty.getName();
+		EdmBindingTarget edmBindingTarget = startEdmEntitySet.getRelatedBindingTarget(navPropName);
+		if (edmBindingTarget == null) {
+			throw new ODataApplicationException("Not supported.", HttpStatusCode.NOT_IMPLEMENTED.getStatusCode(),
+					Locale.ROOT);
+		}
+		if (edmBindingTarget instanceof EdmEntitySet) {
+			navigationTargetEntitySet = (EdmEntitySet) edmBindingTarget;
+		} else {
+			throw new ODataApplicationException("Not supported.", HttpStatusCode.NOT_IMPLEMENTED.getStatusCode(),
+					Locale.ROOT);
+		}
+		return navigationTargetEntitySet;
 	}
 }

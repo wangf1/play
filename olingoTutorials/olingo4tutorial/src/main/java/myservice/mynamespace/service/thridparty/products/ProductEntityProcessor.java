@@ -47,6 +47,7 @@ import org.apache.olingo.server.api.uri.UriResource;
 import org.apache.olingo.server.api.uri.UriResourceEntitySet;
 
 import myservice.mynamespace.service.api.IEntityProcessor;
+import myservice.mynamespace.service.thirdparty.productcategory.common.Storage;
 import myservice.mynamespace.service.util.Util;
 
 public class ProductEntityProcessor implements IEntityProcessor {
