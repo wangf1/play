@@ -37,7 +37,8 @@ import myservice.mynamespace.service.DemoEdmProvider;
 import myservice.mynamespace.service.EntityCollectionProcessorChain;
 import myservice.mynamespace.service.EntityProcessorChain;
 import myservice.mynamespace.service.PrimitiveProcessorChain;
-import myservice.mynamespace.service.thridparty.Register3rdPartyThings;
+import myservice.mynamespace.service.thirdparty.categories.CategoriesServiceRegister;
+import myservice.mynamespace.service.thridparty.products.ProductsServiceRegister;
 
 /**
  * This class represents a standard HttpServlet implementation. It is used as
@@ -55,7 +56,8 @@ public class DemoServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		try {
-			Register3rdPartyThings.instance.registerAll3rdPartyThings();
+			ProductsServiceRegister.instance.register();
+			CategoriesServiceRegister.instance.register();
 			// create odata handler and configure it with EdmProvider and
 			// Processor
 			OData odata = OData.newInstance();

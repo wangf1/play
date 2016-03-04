@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package myservice.mynamespace.service.thirdparty.data;
+package myservice.mynamespace.service.thridparty.products;
 
 import java.net.URI;
 import java.net.URISyntaxException;

@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package myservice.mynamespace.service.thridparty;
+package myservice.mynamespace.service.thirdparty.categories;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -47,6 +47,7 @@ import org.apache.olingo.server.api.uri.UriResource;
 import org.apache.olingo.server.api.uri.UriResourceEntitySet;
 
 import myservice.mynamespace.service.api.IEntityCollectionProcessor;
+import myservice.mynamespace.service.thirdparty.productcategory.common.MetadataConstants;
 
 /**
  * This class is invoked by the Olingo framework when the the OData service is
@@ -115,7 +116,7 @@ public class CategoriesEntityCollectionProcessor implements IEntityCollectionPro
 
 		EntityCollection productsCollection = new EntityCollection();
 		// check for which EdmEntitySet the data is requested
-		if (Register3rdPartyThings.ES_PRODUCTS_NAME.equals(edmEntitySet.getName())) {
+		if (MetadataConstants.ES_PRODUCTS_NAME.equals(edmEntitySet.getName())) {
 			List<Entity> productList = productsCollection.getEntities();
 
 			// add some sample product entities
@@ -160,7 +161,7 @@ public class CategoriesEntityCollectionProcessor implements IEntityCollectionPro
 		// in our example, the first segment is the EntitySet
 		UriResourceEntitySet uriResourceEntitySet = (UriResourceEntitySet) resourcePaths.get(0);
 		EdmEntitySet edmEntitySet = uriResourceEntitySet.getEntitySet();
-		if (Register3rdPartyThings.ES_CATEGORIES_NAME.equals(edmEntitySet.getName())) {
+		if (MetadataConstants.ES_CATEGORIES_NAME.equals(edmEntitySet.getName())) {
 			// if resource name is not Products, this processor will not process
 			// the request
 			return true;

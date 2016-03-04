@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package myservice.mynamespace.service.thridparty;
+package myservice.mynamespace.service.thridparty.products;
 
 import java.io.InputStream;
 import java.util.List;
@@ -47,7 +47,6 @@ import org.apache.olingo.server.api.uri.UriResource;
 import org.apache.olingo.server.api.uri.UriResourceEntitySet;
 
 import myservice.mynamespace.service.api.IEntityProcessor;
-import myservice.mynamespace.service.thirdparty.data.Storage;
 import myservice.mynamespace.service.util.Util;
 
 public class ProductEntityProcessor implements IEntityProcessor {

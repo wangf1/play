@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package myservice.mynamespace.service.thridparty;
+package myservice.mynamespace.service.thridparty.products;
 
 import java.util.List;
 
@@ -41,7 +41,6 @@ import org.apache.olingo.server.api.uri.UriResource;
 import org.apache.olingo.server.api.uri.UriResourceEntitySet;
 
 import myservice.mynamespace.service.api.IEntityCollectionProcessor;
-import myservice.mynamespace.service.thirdparty.data.Storage;
 
 /**
  * This class is invoked by the Olingo framework when the the OData service is

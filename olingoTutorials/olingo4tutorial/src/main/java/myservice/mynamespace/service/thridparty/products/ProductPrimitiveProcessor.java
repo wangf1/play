@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package myservice.mynamespace.service.thridparty;
+package myservice.mynamespace.service.thridparty.products;
 
 import java.io.InputStream;
 import java.util.List;
@@ -48,7 +48,6 @@ import org.apache.olingo.server.api.uri.UriResourceEntitySet;
 import org.apache.olingo.server.api.uri.UriResourceProperty;
 
 import myservice.mynamespace.service.api.IPrimitiveProcessor;
-import myservice.mynamespace.service.thirdparty.data.Storage;
 
 public class ProductPrimitiveProcessor implements IPrimitiveProcessor {
 
