@@ -11,7 +11,8 @@ import com.wangf.compiler.frontend.FrontendFactory;
 import com.wangf.compiler.frontend.Parser;
 import com.wangf.compiler.frontend.Source;
 import com.wangf.compiler.intermediate.IIntermediateCode;
-import com.wangf.compiler.intermediate.ISymbolTable;
+import com.wangf.compiler.intermediate.ISymbolTableStack;
+import com.wangf.compiler.util.CrossReferencer;
 
 public class ParseTest {
 	@Test
@@ -29,9 +30,11 @@ public class ParseTest {
 			parser.parse();
 
 			IIntermediateCode intermediateCode = parser.getIntermediateCode();
-			ISymbolTable symbolTable = parser.getSymbolTable();
+			ISymbolTableStack symbolTableStack = parser.getSymTabStack();
 
-			backend.process(intermediateCode, symbolTable);
+			new CrossReferencer().print(symbolTableStack);
+
+			backend.process(intermediateCode, symbolTableStack);
 		}
 	}
 }

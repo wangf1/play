@@ -2,17 +2,17 @@ package com.wangf.compiler.frontend;
 
 import java.io.IOException;
 
-import com.wangf.compiler.frontend.pascal.PascalTokenType;
-
 public class Token {
 
 	protected Source source;
-	protected PascalTokenType type;
+	protected ITokenType type;
 	protected Object value;
+	protected int lineNumber;
 	protected StringBuilder text = new StringBuilder();
 
 	public Token(Source source) throws IOException {
 		this.source = source;
+		this.lineNumber = source.getLineNumber();
 		extract();
 	}
 
@@ -25,6 +25,18 @@ public class Token {
 	@Override
 	public String toString() {
 		return "Token [type=" + type + ", value=" + value + ", text='" + text + "']";
+	}
+
+	public ITokenType getType() {
+		return type;
+	}
+
+	public String getText() {
+		return text.toString();
+	}
+
+	public int getLineNumber() {
+		return lineNumber;
 	}
 
 }

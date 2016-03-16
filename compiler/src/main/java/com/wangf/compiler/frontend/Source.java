@@ -86,4 +86,8 @@ public class Source implements Closeable {
 		}
 	}
 
+	public int getLineNumber() {
+		return lineNumber;
+	}
+
 }
