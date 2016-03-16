@@ -1,7 +1,7 @@
 package com.wangf.compiler.frontend.pascal;
 
 public enum PascalErrorCode {
-	INVALID_NUMBER("Invalid number"), UNEXPECTED_EOF("Unexpected end of file");
+	INVALID_NUMBER("Invalid number"), UNEXPECTED_EOF("Unexpected end of file"), INVALID_CHARACTER("Invalid character");
 
 	private String message;
 
