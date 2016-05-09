@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta charset="utf-8" />
+<title>OpenUI5 Wallkthrough</title>
+<script id="sap-ui-bootstrap" src="../resources/sap-ui-core.js"
+	data-sap-ui-theme="sap_bluecrystal" data-sap-ui-libs="sap.m"
+	data-sap-ui-compatVersion="edge" data-sap-ui-preload="async"
+	data-sap-ui-resourceroots='{
+		"openui5.tutorial.wt.extendTest": "./"
+	}'>
+    
+</script>
+<script>
+    sap.ui.getCore().attachInit(function() {
+        sap.ui.require([
+            "openui5/tutorial/wt/extendTest/MySubObject"
+        ], function(MySubObject) {
+            var mySubObject = new MySubObject();
+            mySubObject.parentFunction1();
+            mySubObject.parentFunction2();
+        });
+    });
+</script>
+</head>
+<body id="content" class="sapUiBody">
+</body>
+</html>
