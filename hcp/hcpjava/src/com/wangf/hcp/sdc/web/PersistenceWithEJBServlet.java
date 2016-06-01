@@ -15,6 +15,9 @@ import org.slf4j.LoggerFactory;
 
 import com.sap.security.core.server.csi.IXSSEncoder;
 import com.sap.security.core.server.csi.XSSEncoder;
+import com.sap.security.um.service.UserManagementAccessor;
+import com.sap.security.um.user.User;
+import com.sap.security.um.user.UserProvider;
 import com.wangf.hcp.sdc.persistence.dao.PersonDaoEjb;
 import com.wangf.hcp.sdc.persistence.entity.Person;
 
@@ -33,6 +36,7 @@ public class PersistenceWithEJBServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		displayCurrentUser(request, response);
 		response.getWriter().println("<p>Persistence with EJB Sample!</p>");
 		try {
 			appendPersonTable(response);
@@ -41,6 +45,7 @@ public class PersistenceWithEJBServlet extends HttpServlet {
 			response.getWriter().println("Persistence operation failed with reason: " + e.getMessage());
 			LOGGER.error("Persistence operation failed", e);
 		}
+
 	}
 
 	/** {@inheritDoc} */
@@ -94,6 +99,27 @@ public class PersistenceWithEJBServlet extends HttpServlet {
 			person.setFirstName(firstName.trim());
 			person.setLastName(lastName.trim());
 			personDao.addPerson(person);
+		}
+	}
+
+	private void displayCurrentUser(HttpServletRequest request, HttpServletResponse response) {
+
+		// Check for a logged in user
+		if (request.getUserPrincipal() != null) {
+			try {
+				// UserProvider provides access to the user storage
+				UserProvider users = UserManagementAccessor.getUserProvider();
+
+				// Read the currently logged in user from the user storage
+				User user = users.getUser(request.getUserPrincipal().getName());
+
+				// Print the user name and email
+				response.getWriter().println(
+						"<p>User name: " + user.getAttribute("firstname") + " " + user.getAttribute("lastname"));
+				response.getWriter().println("Email: " + user.getAttribute("email") + "</p>");
+			} catch (Exception e) {
+				// Handle errors
+			}
 		}
 	}
 }
