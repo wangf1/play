@@ -1,6 +1,7 @@
 package com.wangf.hcp.sdc.persistence.entity;
 
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -18,8 +19,10 @@ public class Person {
 	@GeneratedValue
 	private long id;
 	@Basic
+	@Column(length = 255)
 	private String firstName;
 	@Basic
+	@Column(length = 255)
 	private String lastName;
 
 	/**
