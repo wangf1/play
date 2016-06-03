@@ -63,7 +63,7 @@ public class PersistenceWithEJBServlet extends HttpServlet {
 
 	private void appendPersonTable(HttpServletResponse response) throws SQLException, IOException {
 		// Append table that lists all persons
-		List<Person> resultList = personDao.getAllPersons();
+		List<Person> resultList = personDao.getAll();
 		response.getWriter().println("<p><table border=\"1\"><tr><th colspan=\"3\">"
 				+ (resultList.isEmpty() ? "" : resultList.size() + " ") + "Entries in the Database</th></tr>");
 		if (resultList.isEmpty()) {
@@ -98,7 +98,7 @@ public class PersistenceWithEJBServlet extends HttpServlet {
 			Person person = new Person();
 			person.setFirstName(firstName.trim());
 			person.setLastName(lastName.trim());
-			personDao.addPerson(person);
+			personDao.add(person);
 		}
 	}
 

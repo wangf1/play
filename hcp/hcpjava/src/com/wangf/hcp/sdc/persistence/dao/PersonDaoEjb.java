@@ -18,15 +18,23 @@ public class PersonDaoEjb {
 	/**
 	 * Get all persons from the table.
 	 */
-	public List<Person> getAllPersons() {
+	public List<Person> getAll() {
 		return em.createNamedQuery("AllPersons", Person.class).getResultList();
 	}
 
 	/**
 	 * Add a person to the table.
 	 */
-	public void addPerson(Person person) {
+	public Person add(Person person) {
 		em.persist(person);
 		em.flush();
+		return person;
+	}
+
+	public Person remove(long id) {
+		Person person = em.find(Person.class, id);
+		em.remove(person);
+		em.flush();
+		return person;
 	}
 }
